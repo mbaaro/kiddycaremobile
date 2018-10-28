@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {FormBuilder,Validators,FormGroup} from '@angular/forms';
+import {CreatecategoryPage } from '../createcategory/createcategory';
 
 /**
  * Generated class for the PostitemPage page.
@@ -38,6 +39,12 @@ export class PostitemPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad PostitemPage');
+  }
+  checkcredentials(){
+
+  }
+  newcategory(){
+this.navCtrl.push(CreatecategoryPage);
   }
 
 }
