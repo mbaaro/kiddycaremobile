@@ -14,11 +14,15 @@ export class BasicproviderProvider {
 	public url:String;
 	public uname:String;
 	public upass:string;
+	public utype:string;
+	public lname:String;
 
 
   constructor() {
   	this.url='http://localhost/api/kiddycare/kiddycare.php?id=';
     //console.log('Hello BasicproviderProvider Provider');
+
+
   }
 
   getlocalcreds(){

@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {FormBuilder,Validators,FormGroup} from '@angular/forms';
 import {CreatecategoryPage } from '../createcategory/createcategory';
+import {Http, Headers} from '@angula/http';
+import 'rxjs/add/operator/map';
 
 /**
  * Generated class for the PostitemPage page.

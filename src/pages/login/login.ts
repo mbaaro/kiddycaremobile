@@ -28,7 +28,7 @@ export class LoginPage {
 	isaccset:Boolean;
 	url:String;
 	response:any;
-	count:Integer;
+	count:any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public formBuilder:FormBuilder,public http:Http,public basicprovider:BasicproviderProvider,public storage:Storage) {
   	this.http=http;
@@ -44,19 +44,12 @@ export class LoginPage {
   }
 
   ionViewDidLoad() {
-   //get the locally stored values and pass them for redefination
-  this.storage.get('uname').then((val)=>{this.storagevalues(val); });
-  this.storage.get('upass').then((val)=>{this.storagevalues(val); });
-  this.storage.get('upass').then((val)=>{this.storagevalues(val);});
+    //lets clear the local db values
+  this.storage.remove('uname');
+  this.storage.remove('upass');
+  this.storage.remove('Lname');
+  this.storage.remove('utype');
   }
-
-
-storagevalues(value){
-	//get values passed from local
-	if(value=='uname'){this.uname=value;}
-	else if(value=='upass'){this.upass=value;}
-	else if (value=='utype'){this.utype=value;}
-}
 
   checkcredentials(){
 //get the formvalues
