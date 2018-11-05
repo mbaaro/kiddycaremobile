@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams,AlertController } from 'ionic-angul
 import {Storage} from '@ionic/storage';
 import{LoginPage} from '../login/login';
 import {BasicproviderProvider} from '../../providers/basicprovider/basicprovider';
-import {LoginPage} from '../login/login';
 import{StocksPage} from'../stocks/stocks';
 
 /**

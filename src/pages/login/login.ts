@@ -25,6 +25,7 @@ export class LoginPage {
 	myform:FormGroup;
 	uname:String;
 	upass:String;
+	utype:any;
 	isaccset:Boolean;
 	url:String;
 	response:any;

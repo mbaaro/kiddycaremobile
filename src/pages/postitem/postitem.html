@@ -14,29 +14,29 @@
 
 
 <ion-content padding>
-<form [formGroup]="myform" (ngSubmit)="checkcredentials()">
+<form [formGroup]="myform" (ngSubmit)="postnew()">
 <ion-item>
 	<ion-label>Item category</ion-label>
-	<ion-select formControlName="category">
-		<ion-option value="option1" >Option1</ion-option>
+	<ion-select formControlName="category" *ngFor="let category of categories">
+		<ion-option value={{category.Category}} >{{category.Category}}</ion-option>
 	</ion-select>
 	
 </ion-item>
 <ion-item>
-	<ion-label>Item Description</ion-label>
+	<ion-label floating>Item Description</ion-label>
 	<ion-textarea type="text" formControlName="description"></ion-textarea>
 </ion-item>
 <ion-item>
-	<ion-label>Quantity</ion-label>
+	<ion-label floating>Quantity</ion-label>
 	<ion-input type="text" formControlName="quantity"></ion-input>
 </ion-item><ion-item>
-	<ion-label>Buying Price</ion-label>
+	<ion-label floating>Buying Price</ion-label>
 	<ion-input type="text" formControlName="buyingP"></ion-input>
 </ion-item><ion-item>
-	<ion-label>Selling Price</ion-label>
+	<ion-label floating>Selling Price</ion-label>
 	<ion-input type="text" formControlName="sellingP"></ion-input>
 </ion-item><ion-item>
-	<ion-label>Maximum Discount</ion-label>
+	<ion-label floating>Maximum Discount</ion-label>
 	<ion-input type="text" formControlName="maxdiscount"></ion-input>
 </ion-item>
 <!--<ion-item>
