@@ -16,6 +16,7 @@ import {StocksPage} from '../pages/stocks/stocks';
 import {ViewitemPage} from '../pages/viewitem/viewitem';
 import {CreatecategoryPage}from '../pages/createcategory/createcategory';
 import {StartPage} from '../pages/start/start';
+import {UpdateStockPage} from '../pages/update-stock/update-stock';
 /**/
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -26,7 +27,7 @@ import { BasicproviderProvider } from '../providers/basicprovider/basicprovider'
     MyApp,
     HomePage,
     ListPage,
-    LoginPage,OrdersPage,PassresetPage,PostitemPage,SellitemPage,ViewitemPage,StocksPage,CreatecategoryPage,StartPage
+    LoginPage,OrdersPage,PassresetPage,PostitemPage,SellitemPage,ViewitemPage,StocksPage,CreatecategoryPage,StartPage,UpdateStockPage
   ],
   imports: [
     BrowserModule,
@@ -39,7 +40,7 @@ import { BasicproviderProvider } from '../providers/basicprovider/basicprovider'
     MyApp,
     HomePage,
     ListPage,
-    LoginPage,OrdersPage,PassresetPage,PostitemPage,SellitemPage,ViewitemPage,StocksPage,CreatecategoryPage,StartPage
+    LoginPage,OrdersPage,PassresetPage,PostitemPage,SellitemPage,ViewitemPage,StocksPage,CreatecategoryPage,StartPage,UpdateStockPage
   ],
   providers: [
     StatusBar,
