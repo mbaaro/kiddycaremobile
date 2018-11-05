@@ -52,4 +52,15 @@ console.log(err);
 
   }
 
+  getcategory(){
+  	//get the selected category
+  }
+
+  getitems(item){
+//get the filtered items
+ this.items = this.items.filter((item) => {
+        return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+  }
+
 }
