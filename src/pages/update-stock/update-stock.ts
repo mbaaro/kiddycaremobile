@@ -20,6 +20,7 @@ export class UpdateStockPage {
 	url:String;
 	categories:any;
 	items:any;
+  itemsfiltered:any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public provider:BasicproviderProvider,public http:Http) {
   	this.http=http;
@@ -27,7 +28,6 @@ export class UpdateStockPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad UpdateStockPage');
    this.fetchitems();
   }
   
@@ -41,8 +41,8 @@ this.http.get(this.url+'getall',{headers:headers})
 .subscribe(data=>{
 this.categories=data.categories;
 this.items=data.items;
-console.log(this.items);
-console.log(this.categories);
+this.length=this.items.length; 
+this.itemsfiltered=this.items;
 },
 err=>{
 console.log(err);
@@ -52,15 +52,31 @@ console.log(err);
 
   }
 
-  getcategory(){
-  	//get the selected category
-  }
+ 
 
-  getitems(item){
-//get the filtered items
- this.items = this.items.filter((item) => {
-        return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      })
-  }
+  getitems(cat){
+    //first clear the array
+this.itemsfiltered=[];
+//we will get the current array and filter with the selected category
+this.length=this.items.length;
+var i=0;
+
+var length1=this.length;
+for(i=0;i<=length1;i++){
+  if(i<length1){//avoiding the last index which is a null
+if(cat==this.items[i].category){//check if the category for each item is that clicked
+ this.itemsfiltered.push({
+  'category':this.items[i].category,
+'itemdesc':this.items[i].itemdesc,
+'quantity':this.items[i].quantity,
+'maxdiscount':this.items[i].maxdiscount,
+'buyingp':this.items[i].buyingp,
+'sellingp':this.items[i].sellingp,
+});
+}}
+
+}
+i=0;
+}
 
 }
