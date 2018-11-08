@@ -3,6 +3,7 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import{HttpModule} from'@angular/http';
 import {IonicStorageModule} from '@ionic/storage';
+import {Toast} from '@ionic-native/toast';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -46,7 +47,7 @@ import { BasicproviderProvider } from '../providers/basicprovider/basicprovider'
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    BasicproviderProvider
+    BasicproviderProvider,Toast
   ]
 })
 export class AppModule {}

@@ -3,6 +3,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {Http,Headers} from '@angular/http';
 import 'rxjs/add/operator/map/';
 import {BasicproviderProvider} from '../../providers/basicprovider/basicprovider';
+import {Toast} from '@ionic-native/toast';
+import {Platform } from 'ionic-angular';
+import {AlertController} from 'ionic-angular';
 
 /**
  * Generated class for the UpdateStockPage page.
@@ -21,14 +24,19 @@ export class UpdateStockPage {
 	categories:any;
 	items:any;
   itemsfiltered:any;
+  length:any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public provider:BasicproviderProvider,public http:Http) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public provider:BasicproviderProvider,public http:Http,public alertCtrl:AlertController,public toast:Toast,public platform:Platform) {
   	this.http=http;
   	this.url=provider.url;
   }
 
   ionViewDidLoad() {
+  	//fetch items to be displayed
    this.fetchitems();
+   //display message to user
+   this.showtoast();
+
   }
   
 
@@ -51,6 +59,25 @@ console.log(err);
 );
 
   }
+   showtoast(){
+
+   	/*this.platform.ready().then(()=>
+   	//show a toast indicating how to change stock
+   	this.toast.show('To Change stock, please swipe left on the subject item','5000','center').subscribe(
+   		toast=>{
+
+   		}
+   	));*/
+   	   	if(this.platform.is('cordova')){
+   	//show a toast indicating how to change stock
+   	this.toast.show('To Change stock, please swipe left on the subject item','5000','center').subscribe(
+   		toast=>{
+
+   		}
+   	);
+   	}
+   	
+   }
 
  
 
@@ -66,6 +93,7 @@ for(i=0;i<=length1;i++){
   if(i<length1){//avoiding the last index which is a null
 if(cat==this.items[i].category){//check if the category for each item is that clicked
  this.itemsfiltered.push({
+ 	'id':this.items[i].id,
   'category':this.items[i].category,
 'itemdesc':this.items[i].itemdesc,
 'quantity':this.items[i].quantity,
@@ -76,7 +104,47 @@ if(cat==this.items[i].category){//check if the category for each item is that cl
 }}
 
 }
+console.log(this.itemsfiltered);
 i=0;
+
+}
+
+deletestock(id,item){
+//lets confirm that we want to delete this item
+const confirm=this.alertCtrl.create({
+  title:'Confirm Deletion',
+  message:' Are you sure you want to delete stock for '+item +' ?',
+  buttons:[{
+    text:'Proceed',
+    handler:()=>{
+//lets send the delete request
+var headers=new Headers();
+headers.append('Content-Type','application/x-www-form-urlencoded; charset=UTF-8');
+this.http.get(this.url+'deletestock&&stockid='+id,{headers:headers}).map(
+  res=>res.json())
+.subscribe(data=>{
+  //lets refresh the list displayed now
+this.fetchitems();
+  },
+err=>{
+  console.log(err)
+}
+  );
+
+    }
+  },
+  {
+    text:'Abort',
+    handler:()=>{
+      
+    }
+  }
+  ]
+});
+confirm.present();
+}
+updatestock(id,item){
+console.log(id);
 }
 
 }
