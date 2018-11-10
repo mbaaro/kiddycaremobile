@@ -6,6 +6,9 @@ import {BasicproviderProvider} from '../../providers/basicprovider/basicprovider
 import {Toast} from '@ionic-native/toast';
 import {Platform } from 'ionic-angular';
 import {AlertController} from 'ionic-angular';
+import {StocksPage} from '../stocks/stocks';
+import {UpdatePage} from '../update/update';
+
 
 /**
  * Generated class for the UpdateStockPage page.
@@ -29,6 +32,7 @@ export class UpdateStockPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,public provider:BasicproviderProvider,public http:Http,public alertCtrl:AlertController,public toast:Toast,public platform:Platform) {
   	this.http=http;
   	this.url=provider.url;
+
   }
 
   ionViewDidLoad() {
@@ -104,7 +108,7 @@ if(cat==this.items[i].category){//check if the category for each item is that cl
 }}
 
 }
-console.log(this.itemsfiltered);
+//console.log(this.itemsfiltered);
 i=0;
 
 }
@@ -144,7 +148,10 @@ err=>{
 confirm.present();
 }
 updatestock(id,item){
-console.log(id);
+//console.log(id);
+//lets pass parameters to 
+this.navCtrl.push(UpdatePage,{id:id,items:this.itemsfiltered,item:item}); /*id:id,items:itemsfiltered,item:item*/
+
 }
 
 }
