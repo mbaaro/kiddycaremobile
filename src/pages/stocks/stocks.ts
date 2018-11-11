@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {PostitemPage} from '../postitem/postitem';
 
 
 /**
@@ -27,6 +28,7 @@ export class StocksPage {
    
   }
  post(){
+ 	this.navCtrl.push(PostitemPage);
   	}
 
 }

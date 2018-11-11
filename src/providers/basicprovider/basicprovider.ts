@@ -27,7 +27,7 @@ export class BasicproviderProvider {
 
   getlocalcreds(){
   	//getting the local credentials stored
-  	var uname1="ben";
+  	//var uname1="ben";
   }
 
 }

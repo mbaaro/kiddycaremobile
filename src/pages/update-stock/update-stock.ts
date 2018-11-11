@@ -6,7 +6,7 @@ import {BasicproviderProvider} from '../../providers/basicprovider/basicprovider
 import {Toast} from '@ionic-native/toast';
 import {Platform } from 'ionic-angular';
 import {AlertController} from 'ionic-angular';
-import {StocksPage} from '../stocks/stocks';
+//import {StocksPage} from '../stocks/stocks';
 import {UpdatePage} from '../update/update';
 
 
@@ -150,8 +150,7 @@ confirm.present();
 updatestock(id,item){
 //console.log(id);
 //lets pass parameters to 
-this.navCtrl.push(UpdatePage,{id:id,items:this.itemsfiltered,item:item}); /*id:id,items:itemsfiltered,item:item*/
-
+this.navCtrl.push(UpdatePage,{id:id,items:this.itemsfiltered,item:item,categories:this.categories}); /*id:id,items:itemsfiltered,item:item*/
 }
 
 }

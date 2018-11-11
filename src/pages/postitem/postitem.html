@@ -17,8 +17,8 @@
 <form [formGroup]="myform" (ngSubmit)="postnew()">
 <ion-item>
 	<ion-label>Item category</ion-label>
-	<ion-select formControlName="category" *ngFor="let category of categories">
-		<ion-option value={{category.Category}} >{{category.Category}}</ion-option>
+	<ion-select formControlName="category" >
+		<ion-option value={{category.Category}} *ngFor="let category of categories" >{{category.Category}}</ion-option>
 	</ion-select>
 	
 </ion-item>

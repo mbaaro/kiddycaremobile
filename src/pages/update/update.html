@@ -15,4 +15,34 @@
 
 <ion-content padding>
 
+<form [formGroup]="myform" (ngSubmit)="sendupdate()">
+
+<ion-item>
+	<ion-label>Item category</ion-label>
+	<ion-select formControlName="category" >
+	<ion-option value={{category}}> </ion-option>
+		<ion-option value={{category.Category}} *ngFor="let category of categories">{{category.Category}}</ion-option>
+	</ion-select>
+	
+</ion-item>
+<ion-item>
+	<ion-label floating>Item Description</ion-label>
+	<ion-textarea type="text" formControlName="description">{{description}}</ion-textarea>
+</ion-item>
+<ion-item>
+	<ion-label floating>Quantity</ion-label>
+	<ion-input type="text" formControlName="quantity">{{quantity}}</ion-input>
+</ion-item><ion-item>
+	<ion-label floating>Buying Price</ion-label>
+	<ion-input type="text" formControlName="buyingP">{{buyingP}}</ion-input>
+</ion-item><ion-item>
+	<ion-label floating>Selling Price</ion-label>
+	<ion-input type="text" formControlName="sellingP">{{sellingP}}</ion-input>
+</ion-item><ion-item>
+	<ion-label floating>Maximum Discount</ion-label>
+	<ion-input type="text" formControlName="maxdiscount">{{maxdiscount}}</ion-input>
+</ion-item>
+<button ion-button type="submit" [disabled]="!myform.valid">Update Details</button>	
+
+</form>
 </ion-content>
