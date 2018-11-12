@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {FormBuilder,FormGroup,Validators } from '@angular/forms';
-
+import {Http, Headers} from '@angular/http';
+import 'rxjs/add/operator/map';
+import {BasicproviderProvider} from '../../providers/basicprovider/basicprovider';
 /**
  * Generated class for the UpdatePage page.
  *
@@ -29,9 +31,9 @@ myform:FormGroup;
 	maxdiscount:Number;
 	image:any;
   url:String;
-  categories:any;
-  constructor(public navCtrl: NavController, public navParams: NavParams,public formBuilder:FormBuilder) {
-  
+  constructor(public navCtrl: NavController, public navParams: NavParams,public formBuilder:FormBuilder,public http:Http,public provider:BasicproviderProvider) {
+  this.http=http;
+  this.url=provider.url;
 this.id=this.navParams.get("id");
   this.itemdesc=this.navParams.get("item");
   	this.items=this.navParams.get("items");
@@ -39,7 +41,7 @@ this.id=this.navParams.get("id");
 // form validation rules
   	 this.myform=formBuilder.group({
   		category:['',Validators.required],
-  		description:['hhdhdhh',Validators.required],
+  		description:['',Validators.required],
   		quantity:['',Validators.required],
   		buyingP:['',Validators.required],
   		sellingP:['',Validators.required],
@@ -70,7 +72,25 @@ this.maxdiscount=this.items[i].maxdiscount;/**/
  }
 
 sendupdate(){
-	
+	var headers=new Headers();
+	var value =this.myform.value;
+	let body =JSON.stringify({
+		'category':value.category,
+		'description':value.description,
+		'quantity':value.quantity,
+		'buyingp':value.buyingp,
+		'sellingp':value.sellingp,
+		'maxdiscount':value.maxdiscount,
+	});
+	//lets post the data
+	headers.append('Content-Type','application/x-www-form-urlencoded; charset=UTF-8');
+	this.http.post(this.url+'updatestock',body,{headers:headers}).subscribe(
+	err=>{
+			console.log(err)
+		},
+		()=>{}
+
+	);
 
 }
 }
