@@ -19,22 +19,29 @@
 	<ion-label floating >New Category</ion-label>
 	<ion-input type="text" formControlName="category"></ion-input>
 </ion-item>
+<ion-item>
+  <ion-label floating >Description</ion-label>
+  <ion-input type="text" formControlName="description"></ion-input>
+</ion-item>
 	<button ion-button type="Submit" [disabled]=!myform.valid>Add Category</button>
 </form>
 <hr>
 Existing categories<br>
-<ion-list>
+<ion-list *ngFor="let cat of categorydata">
 <ion-item-sliding>
-	<ion-item></ion-item>
-	<ion-item-options side="left">
-      <button ion-button color="primary">
-        <ion-icon name="text"></ion-icon>
-        Text
-      </button>
-      <button ion-button color="secondary">
-        <ion-icon name="call"></ion-icon>
-        Call
-      </button>
+<ion-item>
+ <ion-card >
+   <ion-card-content>
+     {{cat.CategoryNo}}.&emsp;&emsp;{{cat.Category}}<br><br>
+     {{cat.description}}
+   </ion-card-content>
+ </ion-card>
+</ion-item>
+	<ion-item-options side="right">
+      <button ion-button color="primary" (click)="deletecategory(cat.CategoryNo)">
+        <ion-icon name="trash"></ion-icon>
+             </button>
+      
     </ion-item-options>
 </ion-item-sliding>
 </ion-list>

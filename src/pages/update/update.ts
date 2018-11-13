@@ -75,6 +75,7 @@ sendupdate(){
 	var headers=new Headers();
 	var value =this.myform.value;
 	let body =JSON.stringify({
+		'id':this.id,
 		'category':value.category,
 		'description':value.description,
 		'quantity':value.quantity,
@@ -88,7 +89,9 @@ sendupdate(){
 	err=>{
 			console.log(err)
 		},
-		()=>{}
+		()=>{
+			alert("Item updated, Refresh  to see changes");
+		}
 
 	);
 

@@ -1,5 +1,6 @@
 
 import { Injectable } from '@angular/core';
+
 //import {Storage} from '@ionic/storage';
 
 
@@ -16,6 +17,7 @@ export class BasicproviderProvider {
 	public upass:string;
 	public utype:string;
 	public lname:String;
+  public catdata:any;
 
 
   constructor() {
@@ -28,6 +30,9 @@ export class BasicproviderProvider {
   getlocalcreds(){
   	//getting the local credentials stored
   	//var uname1="ben";
+  }
+  getcategories(){
+    //fetching the saved categories
   }
 
 }
