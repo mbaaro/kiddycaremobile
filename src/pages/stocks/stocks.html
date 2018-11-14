@@ -16,24 +16,37 @@
 <ion-content padding>
 
 <button ion-button (click)="post()">go to post</button>
-<ion-list *ngFor="let stock of stockdata">
+<ion-item>
+	<ion-label floating>Pick category</ion-label>
+	<ion-select (ionChange)="filteritems($event)">
+		<ion-option *ngFor="let cat of categories" value={{cat.Category}}>{{cat.Category}}</ion-option>
+	</ion-select>
+</ion-item>
+<ion-list *ngFor="let stock of filteredstockdata">
 	<ion-item-sliding>
 		<ion-item>
 		<ion-card>
+		<ion-card-header>{{stock.Id}}</ion-card-header>
 			<ion-card-content>
-			{{stock.id}}
+			ITEM:&emsp;&emsp;{{stock.ItemDesc}}
+			CATEGORY:&emsp;{{stock.Category}}
+			STOCK:&emsp;&emsp;{{stock.Quantity}}
+			PRICE:&emsp;&emsp;{{stock.SellingPrice}}
+			MAX DISCOUNT:&emsp;{{stock.MaxDiscount}}
 			</ion-card-content>
 		</ion-card>	
 		</ion-item>
 		<ion-item-options side="right">
-			<button ion-button small color="primary">Sell</button>
-			<button ion-button small color="secondary">Order</button>
+			<button ion-button small color="primary" (click)="getclicked(stock.Id,'sell')">Sell</button>
+			<button ion-button small color="secondary" (click)="getclicked(stock.Id,'order')">Order</button>
 		</ion-item-options>
 		<ion-item-options side="left" *ngIf="isadmin">
-			<button ion-button small color="primary">Delete</button>
-			<button ion-button small color="secondary">Create order</button>
+			<button ion-button small color="primary" (click)="getclicked(stock.Id,'delete')">Delete</button>
+			<button ion-button small color="secondary" (click)="getclicked(stock.Id,'to_order')">Create order</button>
 		</ion-item-options>
 	</ion-item-sliding>
 </ion-list>
 
 </ion-content>
+
+
