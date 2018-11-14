@@ -64,7 +64,7 @@ if(type=='Admin'){
 this.isadmin=true;
   }	
   else {
-this.admin=false;
+this.isadmin=false;
   }
 }
 
