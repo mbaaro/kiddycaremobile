@@ -117,35 +117,7 @@ $newquantity=($currentquantity+$quantity);
     $query->execute();
 echö $newquantity;
  */}
- elseif($id=='deletestock'){
-//a request to delete the stock item from mobile
-$stockid=$_GET['stockid'];
-$query=$con->prepare('update `stock`set `Deleted`=1 where Id=?'); 
-$query->bind_param('i',$stockid); 
-if($query->execute()) {
-    //if successfull send success message
-    echo(json_encode('Success'));
-} else{
-    //if the update failed
-   echo(json_encode('Operation failed')); 
-} }
-     elseif($id=='updatestock'){
-        //lets get the data posted
-        $postdata=file_get_contents("php://input");
-        $result=json_decode($postdata);
-        $id=$result->id;
-        $category=$result->category;
-        $description=$result->description;
-        $quantity=$result->quantity;
-        $buyingp=$result->buyingP;
-        $sellingp=$result->sellingP;
-        $maxdiscount=$result->maxdiscount;
 
-        //lets update
-        $query=$con->prepare("UPDATE `stock` SET `Category`=?,`ItemDesc`=?,`Quantity`=?,`Image`='',`BuyingPrice`=?,`SellingPrice`=?,`MaxDiscount`=? WHERE `Id`=?");
-        $query->bind_param('sssssss',$category,$description,$quantity,$buyingp,$sellingp,$maxdiscount,$id);
-        $query->execute();
-     }
         elseif($id=='getcategories'){
             //lets fetch the existing  categories
             $query=$con->query("SELECT * FROM `categories` where deleted='0' ");
@@ -179,16 +151,56 @@ if($query->execute()) {
            $query=$con->prepare("INSERT INTO `categories`( `Category`, `description`) VALUES (?,?)");
            $query->bind_param('ss',$category,$description);
            $query->execute();
-        }  
+        } 
+ elseif($id=='deletestock'){
+//a request to delete the stock item from mobile
+$stockid=$_GET['stockid'];
+$query=$con->prepare('update `stock`set `Deleted`=1 where Id=?'); 
+$query->bind_param('i',$stockid); 
+if($query->execute()) {
+    //if successfull send success message
+    echo(json_encode('Success'));
+} else{
+    //if the update failed
+   echo(json_encode('Operation failed')); 
+} }
+     elseif($id=='updatestock'){
+        //lets get the data posted
+        $postdata=file_get_contents("php://input");
+        $result=json_decode($postdata);
+        $id=$result->id;
+        $category=$result->category;
+        $description=$result->description;
+        $quantity=$result->quantity;
+        $buyingp=$result->buyingP;
+        $sellingp=$result->sellingP;
+        $maxdiscount=$result->maxdiscount;
+
+        //lets update
+        $query=$con->prepare("UPDATE `stock` SET `Category`=?,`ItemDesc`=?,`Quantity`=?,`Image`='',`BuyingPrice`=?,`SellingPrice`=?,`MaxDiscount`=? WHERE `Id`=?");
+        $query->bind_param('sssssss',$category,$description,$quantity,$buyingp,$sellingp,$maxdiscount,$id);
+        $query->execute();
+     }
+
 elseif($id=='fetchstock'){
 //get the items in stock
     $query=$con->query("SELECT * FROM `stock` where Deleted='0'");
 while($row=$query->fetch_object()){
-$data[]=array();
+$data[]=array(
+'Id'=>$row->Id,
+'Category'=>$row->Category,
+'ItemDesc'=>$row->ItemDesc,
+'Quantity'=>$row->Quantity,
+'Image'=>$row->Image,
+'BuyingPrice'=>$row->BuyingPrice,
+'SellingPrice'=>$row->SellingPrice,
+'MaxDiscount'=>$row->MaxDiscount
+    );
 
 }
 echo json_encode(array('data'=>$data));
 } 
+
 
 
 elseif($id==''){}      

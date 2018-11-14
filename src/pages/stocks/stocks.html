@@ -14,6 +14,26 @@
 
 
 <ion-content padding>
+
 <button ion-button (click)="post()">go to post</button>
+<ion-list *ngFor="let stock of stockdata">
+	<ion-item-sliding>
+		<ion-item>
+		<ion-card>
+			<ion-card-content>
+			{{stock.id}}
+			</ion-card-content>
+		</ion-card>	
+		</ion-item>
+		<ion-item-options side="right">
+			<button ion-button></button>
+			<button ion-button></button>
+		</ion-item-options>
+		<ion-item-options side="left" *ngIf="isadmin">
+			<button ion-button></button>
+			<button ion-button></button>
+		</ion-item-options>
+	</ion-item-sliding>
+</ion-list>
 
 </ion-content>
