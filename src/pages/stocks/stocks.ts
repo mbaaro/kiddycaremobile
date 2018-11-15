@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,AlertController } from 'ionic-angular';
 import {PostitemPage} from '../postitem/postitem';
 import{BasicproviderProvider} from '../../providers/basicprovider/basicprovider';
 import {Storage} from '@ionic/storage';
@@ -32,7 +32,9 @@ categories:any;
 	bp:any;
 	sp:any;
 	discount:any;
-  constructor(public navCtrl: NavController, public navParams: NavParams,public storage:Storage,public http:Http, public provider:BasicproviderProvider) {
+	quantity_to_sell:any;
+	price_tp_sell:any;
+  constructor(public navCtrl: NavController, public navParams: NavParams,public storage:Storage,public http:Http, public provider:BasicproviderProvider,public alertCtr:AlertController) {
   	this.http=http;
   	this.url=this.provider.url;
   	this.isadmin=false;
@@ -124,12 +126,8 @@ getclicked(id,event){
 	//get the clicked item to know what to do
 	
 var j=0;
-for(j=0;j<=(this.filteredstockdata.length);j++){
-	console.log(filteredstockdata[j].Id);
-
-
-	/*if(this.filteredstockdata[j].Id==id){
-
+for(j=0;j<=(this.filteredstockdata.length-1);j++){
+	if(this.filteredstockdata[j].Id==id){
 		// the id matches the clicked one
 	this.id=this.filteredstockdata[j].Id;
 	this.category=this.filteredstockdata[j].Category;
@@ -139,7 +137,7 @@ for(j=0;j<=(this.filteredstockdata.length);j++){
 	this.sp=this.filteredstockdata[j].SellingPrice;
 	this.discount=this.filteredstockdata[j].MaxDiscount;	
 	}
-*/}
+}
 
 if(event=='delete'){
 this.delete();
@@ -158,7 +156,54 @@ delete(){
 console.log('delete'+this.description);
 }
 sale(){
-	console.log('sell'+this.description);
+	//get the quantity to sell and the price
+	const prompt=this.alertCtr.create({
+title:'Quantity and price',
+message: 'Enter Quantity to sell and unit price for one',
+inputs:[
+{name:'quantity_to_sell',placeholder:'Quantity'},
+{name:'Unit_price', placeholder:'unit price'},
+],
+buttons:[
+{
+          text: 'Cancel ',
+          handler: data => {
+           // console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Done',
+          handler: data => {
+          	this.process_sale(data.quantity_to_sell,data.unit_price);
+             }
+        },
+],
+
+	});
+
+	prompt.present();
+console.log(this.price_to_sell);
+
+}
+process_sale(quantity1,unit_price){
+	//sales logic after getting all the data we need
+if(unit_price<(this.sp-this.discount)){
+	//trying to sell below minium discount
+	alert("You can not give a discount below the allowed maximum discount");
+}
+else if(quantity1>this.quantity){
+	//trying to sell more than is in stock
+	alert("You can not sell more than is  in stock");
+}
+else{
+//lets proceed with the sale
+//calculate the total amount
+//update cart
+//reduce stock //local and on remote db
+//insert into sales
+
+
+}
 }
 order(){
 	console.log('ordered'+this.description);

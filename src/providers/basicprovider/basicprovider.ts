@@ -18,6 +18,8 @@ export class BasicproviderProvider {
 	public utype:string;
 	public lname:String;
   public catdata:any;
+  public saleitems:any;
+  public orderitems:any;
 
 
   constructor() {
