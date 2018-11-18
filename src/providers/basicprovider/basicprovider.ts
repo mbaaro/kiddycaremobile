@@ -24,9 +24,8 @@ export class BasicproviderProvider {
 
   constructor() {
   	this.url='http://localhost/api/kiddycare/kiddycare.php?id=';
-    //console.log('Hello BasicproviderProvider Provider');
-
-
+   this.saleitems=[];
+   this.orderitems=[];
   }
 
   getlocalcreds(){

@@ -8,12 +8,19 @@
 
   <ion-navbar>
     <ion-title>Stocks</ion-title>
+    &emsp;&emsp;<b>picked:</b>{{cartnumber}}&emsp;<b>Amount:</b>{{cartamount}}
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+<ion-fab center edge *ngIf="iscart">
+    <button ion-fab mini color="secondary" (click)="completesale()"><ion-icon name="cash"></ion-icon></button>
+    </ion-fab>
+    <ion-fab top right edge *ngIf="isorder">
+    <button ion-fab mini color="primary" (click)="completeorder()"><ion-icon name="done-all"></ion-icon></button>
+    </ion-fab>
 
 <button ion-button (click)="post()">go to post</button>
 <ion-item>

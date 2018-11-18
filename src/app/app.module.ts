@@ -19,6 +19,7 @@ import {CreatecategoryPage}from '../pages/createcategory/createcategory';
 import {StartPage} from '../pages/start/start';
 import {UpdateStockPage} from '../pages/update-stock/update-stock';
 import{UpdatePage} from '../pages/update/update';
+import {CompletesalePage} from '../pages/completesale/completesale';
 /**/
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -29,7 +30,7 @@ import { BasicproviderProvider } from '../providers/basicprovider/basicprovider'
     MyApp,
     HomePage,
     ListPage,
-    LoginPage,OrdersPage,PassresetPage,PostitemPage,SellitemPage,ViewitemPage,StocksPage,CreatecategoryPage,StartPage,UpdateStockPage,UpdatePage
+    LoginPage,OrdersPage,PassresetPage,PostitemPage,SellitemPage,ViewitemPage,StocksPage,CreatecategoryPage,StartPage,UpdateStockPage,UpdatePage,CompletesalePage
   ],
   imports: [
     BrowserModule,
@@ -42,7 +43,7 @@ import { BasicproviderProvider } from '../providers/basicprovider/basicprovider'
     MyApp,
     HomePage,
     ListPage,
-    LoginPage,OrdersPage,PassresetPage,PostitemPage,SellitemPage,ViewitemPage,StocksPage,CreatecategoryPage,StartPage,UpdateStockPage,UpdatePage
+    LoginPage,OrdersPage,PassresetPage,PostitemPage,SellitemPage,ViewitemPage,StocksPage,CreatecategoryPage,StartPage,UpdateStockPage,UpdatePage,CompletesalePage
   ],
   providers: [
     StatusBar,
