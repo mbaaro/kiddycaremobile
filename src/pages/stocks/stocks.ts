@@ -59,10 +59,13 @@ categories:any;
 this.storage.get('utype').then((val)=>{
 	this.settype(val);
 });
+this.cartnumber=this.provider.cartnumber;
+this.cartamount=this.provider.cartamount;
 //lets fetch the categories
 this.fetchcategories();
 //lets fetch stock
 this.fetchstock();
+
 
    
   }
@@ -202,8 +205,10 @@ buttons:[
 								title:'Quantity and price',
 								message: 'Enter Quantity to sell and unit price for one',
 								inputs:[
+								{name:'Customer',placeholder:'Customer'},
 								{name:'quantity_to_sell',placeholder:'Quantity'},
 								{name:'Unit_price', placeholder:'unit price'},
+								
 								],
 								buttons:[
 								{
@@ -230,7 +235,7 @@ if(unit_price<(this.sp-this.discount)){
 	//trying to sell below minium discount
 	alert("sorry, You can not give more than the allowed discount for  "+this.description);
 }
-		else if((this.quantity)<quantity1){
+		else if(quantity1>this.quantity){
 			//trying to sell more than is in stock
 			alert("You can not sell more than is  in stock");
 		}
@@ -268,7 +273,7 @@ var total=(quantity1*unit_price);
 		//reduce stock  on remote db
 		var headers=new Headers();
 			headers.append('Content-Type','application/x-www-form-urlencoded; charset=UTF-8');
-		this.http.get(this.url+'reducestock&itemid='+this.id+'&quantity='+remaining,{headers:headers})
+		this.http.get(this.url+'reducestock&itemid='+this.id+'&quantity='+quantity1,{headers:headers})
 		.map(res=>res.json())
 		.subscribe(data=>{
 		alert(data);

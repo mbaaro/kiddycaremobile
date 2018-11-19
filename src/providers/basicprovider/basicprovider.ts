@@ -21,6 +21,8 @@ export class BasicproviderProvider {
   public saleitems:any;
   public orderitems:any;
   public filteredstockdata:any;
+  public cartamount:any;
+  public cartnumber:any;
 
 
   constructor() {

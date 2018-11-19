@@ -228,7 +228,7 @@ elseif($id=='addstock'){
 //readding stock that was previously remokved from stock
     //get what is already in stock
     $itemid=$_GET['itemid'];
-    $quantitychanged=$_GET['changedquantity'];
+    $quantitychanged=$_GET['quantity'];
     $newquantity=0;
     $query=$con->query("SELECT `Quantity` FROM `stock` where `Id`='$itemid'");
     while($row=$query->fetch_object()){

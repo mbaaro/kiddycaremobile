@@ -30,11 +30,9 @@ export class CompletesalePage {
   unitprice:any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public provider:BasicproviderProvider,public http:Http,public alertCtrl:AlertController) {
-  this.cartnumber=this.provider.cartnumber;
-  this.cartamount=this.provider.cartamount;
+  
   this.type=this.navParams.get('type');
-  this.saleitems=this.provider.saleitems;
-  this.orderitems=this.provider.orderitems;
+  
   this.issale=false;
   this.isorder=false;
   this.http=http;
@@ -44,8 +42,11 @@ export class CompletesalePage {
 
   ionViewDidLoad() {
 this.determinetype();
-
-  }
+this.cartnumber=this.provider.cartnumber;
+  this.cartamount=this.provider.cartamount;
+  this.saleitems=this.provider.saleitems;
+  this.orderitems=this.provider.orderitems;
+}
 
   determinetype(){
 
@@ -88,17 +89,20 @@ effectchange(changedquantity,id,change){
   //iterate through the sold items array
   var i=0;
   if(this.type=='sale'){
-     for(i=0;i<=(this.provider.saleitems.length-1);i++){
+
+  	//if its an aadition to the order
+  	if(change=='add'){
+  	for(i=0;i<=(this.provider.saleitems.length-1);i++){
       //iterating through  the sales items 
       if(this.provider.saleitems[i].id==id){
         //change the quantity and total amount in the local array
          this.provider.saleitems[i].quantity=(this.provider.saleitems[i].quantity-changedquantity);
-         this.provider.saleitems[i].total= ((this.provider.saleitems[i].quantity)*(this.provider.price));
+         this.provider.saleitems[i].total= ((this.provider.saleitems[i].quantity)*(this.provider.saleitems[i].price));
          //change the total amount
-         this.provider.cartamount=((changedquantity*this.provider.price)+this.provider.cartamount);
+         this.provider.cartamount=((changedquantity*this.provider.saleitems[i].price)+this.provider.cartamount);
 
 //lets change on the remote 
-this.http.get(this.url+'reducestock&quantity'+changedquantity+'&itemid='+id,{headers:headers})
+this.http.get(this.url+'reducestock&quantity='+changedquantity+'&itemid='+id,{headers:headers})
 .map(res=>res.json())
 .subscribe(data=>{
   console.log(data);
@@ -106,18 +110,75 @@ this.http.get(this.url+'reducestock&quantity'+changedquantity+'&itemid='+id,{hea
 err=>{
   console.log(err);
 });
-      }
+      }  } 	
+  	}
+  else if(change=='reduce'){
+  	//we want to reduce some item on the order
+for(i=0;i<=(this.provider.saleitems.length-1);i++){
+      //iterating through  the sales items 
+      if(this.provider.saleitems[i].id==id){
+        //change the quantity and total amount in the local array
+         this.provider.saleitems[i].quantity=(this.provider.saleitems[i].quantity+changedquantity);
+         this.provider.saleitems[i].total= ((this.provider.saleitems[i].quantity)*(this.provider.price));
+         //change the total amount
+         this.provider.cartamount=((changedquantity*this.provider.price)-this.provider.cartamount);
 
-  }
-
-  }
+//lets change on the remote 
+this.http.get(this.url+'addstock&quantity='+changedquantity+'&itemid='+id,{headers:headers})
+.map(res=>res.json())
+.subscribe(data=>{
+  console.log(data);
+},
+err=>{
+  console.log(err);
+});
+      }  } 	
+  }	
+     }
     else if(this.type='orders'){
-
+//lets have a different function for orders
+this.manorders(changedquantity,id,change);
     }
- 
+}
+deleteitem(id){
+	// we want to delete an item previously selected for sale
+	var headers=new Headers();
+    headers.append('Content-Type','application/x-www-form-urlencoded; charset=UTF-8');
+    var i=0;
+  	var returnedqty=0;
+  	//we want to remove some item from the ordr completely ;  	//iterate the array to get the record
+  	//get sum and quantity and subtract from the total values and add the item quantity on the db;    	//remove item from array
+ for(i=0;i<=(this.provider.saleitems.length-1);i++){
+if(this.provider.saleitems[i].id==id){
+	//we have matched the id lets get the item name and change the total amount and the quantity
+this.provider.cartamount=(this.provider.cartamount-this.provider.saleitems[i].total);
+this.provider.cartnumber=(this.provider.cartnumber-1);
+returnedqty=this.provider.saleitems[i].quantity;
+//remove record from array
+//this.provider.saleitems.pop([i]);
+this.provider.saleitems.slice(i);
+//update the db
+this.http.get(this.url+'addstock&quantity='+returnedqty+'&itemid='+id,{headers:headers})
+.map(res=>res.json())
+.subscribe(data=>{
+  console.log(data);
+},
+err=>{
+  console.log(err);
+});
 
 }
+ 
 
+  }
+   
+}
+
+ manorders(
+ 	changedquantity,id,change){
+    // mange the orders add item, reduce item,remove item	
+
+    }
 
 getpaymentmethod(){
 	// get the method of payment
