@@ -204,21 +204,47 @@ echo json_encode(array('data'=>$data));
 
 elseif($id=='reducestock'){
 //reducing a stock after an item  has been selected for sale or order
-    $id=$_GET['itemid'];
+    $id1=$_GET['itemid'];
     $quantity=$_GET['quantity'];
-    $query=$con->prepare("UPDATE `stock` SET `Quantity`=? WHERE `Id`=?");
-    $query->bind_param('ss',$quantity,$id);
-if($query->execute()){
-// if the query ran successfully
-    echo json_encode("Item updated successfully");
-}else{
-    //if the query was not successful
-    echo json_encode("Item not updated");
-}
+    $newquantity=0;
+    $query=$con->query("SELECT `Quantity` FROM `stock` where `Id`='$id1'");
+    while($row=$query->fetch_object()){
+$newquantity=(($row->Quantity)-$quantity);
 
+    }
+    //update what is in stock
+    $qry=$con->prepare("UPDATE `stock` SET `Quantity`=? WHERE `Id`=?");
+    $qry->bind_param('ss',$newquantity,$id1);
+    if($qry->execute()){
+echo json_encode("Update successful");
+    }else{
+echo json_encode("Update not successful");
+    }
 
+   
 } 
 
+elseif($id=='addstock'){
+//readding stock that was previously remokved from stock
+    //get what is already in stock
+    $itemid=$_GET['itemid'];
+    $quantitychanged=$_GET['changedquantity'];
+    $newquantity=0;
+    $query=$con->query("SELECT `Quantity` FROM `stock` where `Id`='$itemid'");
+    while($row=$query->fetch_object()){
+$newquantity=(($row->Quantity)+$quantitychanged);
+    }
+    //update what is in stock
+    $qry=$con->prepare("UPDATE `stock` SET `Quantity`=? WHERE `Id`=?");
+    $qry->bind_param('ss',$newquantity,$itemid);
+    if($qry->execute()){
+echo json_encode("Update successful");
+    }else{
+echo json_encode("Update not successful");
+    }
+
+
+}   
 elseif($id==''){}      
 
     else{

@@ -46,7 +46,7 @@ categories:any;
   	this.cartamount=0;
   	this.cartnumber=0;
   	this.iscart=false;
-  	this.iorder=false;
+  	this.isorder=false;
   //	this.quantity=0;this.quantity_to_sell=0; this.price_to_sell=0;
 //lets get the  passed parameters
 
@@ -74,7 +74,7 @@ this.fetchstock();
 						.subscribe(data=>{
 						this.stockdata=data.data;
 						//console.log(this.stockdata);
-						this.filteredstockdata=this.stockdata;
+						this.provider.filteredstockdata=this.stockdata;
 						},
 						err=>{console.log(err)},
 						()=>{});}
@@ -110,7 +110,7 @@ this.categories=data.data;
 
 
 						filteritems(cat){
-							this.filteredstockdata=[];
+							this.provider.filteredstockdata=[];
 							//lets iterate through the stock datato get for selected category
 						var i=0;
 
@@ -118,7 +118,7 @@ this.categories=data.data;
 
 						if(this.stockdata[i].Category==cat){
 							//category matches lets create a new array
-							this.filteredstockdata.push({
+							this.provider.filteredstockdata.push({
 						'Id':this.stockdata[i].Id ,
 						'Category':this.stockdata[i].Category ,
 						'ItemDesc':this.stockdata[i].ItemDesc ,
@@ -136,16 +136,16 @@ getclicked(id,event){
 	//get the clicked item to know what to do
 	
 var j=0;
-for(j=0;j<=(this.filteredstockdata.length-1);j++){
-	if(this.filteredstockdata[j].Id==id){
+for(j=0;j<=(this.provider.filteredstockdata.length-1);j++){
+	if(this.provider.filteredstockdata[j].Id==id){
 		// the id matches the clicked one
-	this.id=this.filteredstockdata[j].Id;
-	this.category=this.filteredstockdata[j].Category;
-	this.description=this.filteredstockdata[j].ItemDesc;
-	this.quantity=this.filteredstockdata[j].Quantity;
-	this.bp=this.filteredstockdata[j].BuyingPrice;
-	this.sp=this.filteredstockdata[j].SellingPrice;
-	this.discount=this.filteredstockdata[j].MaxDiscount;	
+	this.id=this.provider.filteredstockdata[j].Id;
+	this.category=this.provider.filteredstockdata[j].Category;
+	this.description=this.provider.filteredstockdata[j].ItemDesc;
+	this.quantity=this.provider.filteredstockdata[j].Quantity;
+	this.bp=this.provider.filteredstockdata[j].BuyingPrice;
+	this.sp=this.provider.filteredstockdata[j].SellingPrice;
+	this.discount=this.provider.filteredstockdata[j].MaxDiscount;	
 	}
 }
 
@@ -259,10 +259,10 @@ var total=(quantity1*unit_price);
 		this.cartamount=(this.cartamount+total);
 		//reduce stock //local quantity
 		var j=0;
-		for(j=0;j<=(this.filteredstockdata.length-1);j++){
-			if(this.filteredstockdata[j].Id==this.id){
-		this.filteredstockdata[j].Quantity=(this.filteredstockdata[j].Quantity-quantity1);
-		remaining=this.filteredstockdata[j].Quantity;
+		for(j=0;j<=(this.provider.filteredstockdata.length-1);j++){
+			if(this.provider.filteredstockdata[j].Id==this.id){
+		this.provider.filteredstockdata[j].Quantity=(this.provider.filteredstockdata[j].Quantity-quantity1);
+		remaining=this.provider.filteredstockdata[j].Quantity;
 
 			}}
 		//reduce stock  on remote db
@@ -293,16 +293,16 @@ this.cartnumber=(this.cartnumber+1);
 this.cartamount=(this.cartamount+total);
 //reduce stock //local quantity
 var j=0;
-for(j=0;j<=(this.filteredstockdata.length-1);j++){
-	if(this.filteredstockdata[j].Id==this.id){
-this.filteredstockdata[j].Quantity=(this.filteredstockdata[j].Quantity-quantity1);
-remaining=this.filteredstockdata[j].Quantity;
+for(j=0;j<=(this.provider.filteredstockdata.length-1);j++){
+	if(this.provider.filteredstockdata[j].Id==this.id){
+this.provider.filteredstockdata[j].Quantity=(this.provider.filteredstockdata[j].Quantity-quantity1);
+remaining=this.provider.filteredstockdata[j].Quantity;
 
 	}}
 //reduce stock  on remote db
 var headers=new Headers();
 	headers.append('Content-Type','application/x-www-form-urlencoded; charset=UTF-8');
-this.http.get(this.url+'reducestock&itemid='+this.id+'&quantity='+remaining,{headers:headers})
+this.http.get(this.url+'reducestock&itemid='+this.id+'&quantity='+quantity1,{headers:headers})
 .map(res=>res.json())
 .subscribe(data=>{
 alert(data);

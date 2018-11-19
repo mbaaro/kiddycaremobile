@@ -29,7 +29,7 @@
 		<ion-option *ngFor="let cat of categories" value={{cat.Category}}>{{cat.Category}}</ion-option>
 	</ion-select>
 </ion-item>
-<ion-list *ngFor="let stock of filteredstockdata">
+<ion-list *ngFor="let stock of provider.filteredstockdata">
 	<ion-item-sliding>
 		<ion-item>
 		<ion-card>

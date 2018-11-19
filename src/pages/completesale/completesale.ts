@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams ,AlertController} from 'ionic-angular';
 import {BasicproviderProvider} from '../../providers/basicprovider/basicprovider';
+import {Http,Headers } from '@angular/http';
+import 'rxjs/add/operator/map';
+
 
 /**
  * Generated class for the CompletesalePage page.
@@ -23,15 +26,20 @@ export class CompletesalePage {
 	issale:boolean;
 	isorder:boolean;
 	items:any;
+  url:any;
+  unitprice:any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public provider:BasicproviderProvider) {
-  this.cartnumber=this.navParams.get('cartnumber');
-  this.cartamount=this.navParams.get('cartamount');
+  constructor(public navCtrl: NavController, public navParams: NavParams,public provider:BasicproviderProvider,public http:Http,public alertCtrl:AlertController) {
+  this.cartnumber=this.provider.cartnumber;
+  this.cartamount=this.provider.cartamount;
   this.type=this.navParams.get('type');
   this.saleitems=this.provider.saleitems;
   this.orderitems=this.provider.orderitems;
   this.issale=false;
   this.isorder=false;
+  this.http=http;
+  this.url=this.provider.url;
+
   }
 
   ionViewDidLoad() {
@@ -53,15 +61,64 @@ this.isorder=true;
 
 }
 
-add(){
-	console.log("add");
+getchangequantity(change,id){
+  const prompt=this.alertCtrl.create({
+    title:'Add By',
+    message:'Please enter the quantity to add',
+    inputs:[{
+      name:'added',placeholder:'number to add'}],
+    buttons:[{
+      text:'cancel',
+      handler:data=>{}
+    },
+    {text:'Add',
+handler:data=>{
+ this.effectchange(data.added,id,change);
 }
-reduce(){
-console.log("reduce");
+  }],
+
+  });
+  prompt.present();
 }
-remove(){
-console.log("remove");
+
+effectchange(changedquantity,id,change){
+  var headers=new Headers();
+    headers.append('Content-Type','application/x-www-form-urlencoded; charset=UTF-8');
+  //take what has been entered and make right decisions on amounts
+  //iterate through the sold items array
+  var i=0;
+  if(this.type=='sale'){
+     for(i=0;i<=(this.provider.saleitems.length-1);i++){
+      //iterating through  the sales items 
+      if(this.provider.saleitems[i].id==id){
+        //change the quantity and total amount in the local array
+         this.provider.saleitems[i].quantity=(this.provider.saleitems[i].quantity-changedquantity);
+         this.provider.saleitems[i].total= ((this.provider.saleitems[i].quantity)*(this.provider.price));
+         //change the total amount
+         this.provider.cartamount=((changedquantity*this.provider.price)+this.provider.cartamount);
+
+//lets change on the remote 
+this.http.get(this.url+'reducestock&quantity'+changedquantity+'&itemid='+id,{headers:headers})
+.map(res=>res.json())
+.subscribe(data=>{
+  console.log(data);
+},
+err=>{
+  console.log(err);
+});
+      }
+
+  }
+
+  }
+    else if(this.type='orders'){
+
+    }
+ 
+
 }
+
+
 getpaymentmethod(){
 	// get the method of payment
 }

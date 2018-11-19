@@ -20,6 +20,7 @@ export class BasicproviderProvider {
   public catdata:any;
   public saleitems:any;
   public orderitems:any;
+  public filteredstockdata:any;
 
 
   constructor() {
