@@ -47,12 +47,7 @@ categories:any;
   	this.cartnumber=0;
   	this.iscart=false;
   	this.isorder=false;
-  //	this.quantity=0;this.quantity_to_sell=0; this.price_to_sell=0;
-//lets get the  passed parameters
-
-
-  	
-  }
+   }
 
   ionViewDidLoad() {
     //first get the usertype to determine what user sees
@@ -65,6 +60,8 @@ this.cartamount=this.provider.cartamount;
 this.fetchcategories();
 //lets fetch stock
 this.fetchstock();
+//first check if there is a pending/ incomplete sale/order
+this.checkcurrentsales();
 
 
    
@@ -188,6 +185,7 @@ buttons:[
           text: 'Done',
           handler: data => {
           	this.process_sale(data.quantity_to_sell,data.Unit_price,'sale');
+
              }
         },
 ],
@@ -230,6 +228,7 @@ buttons:[
 									prompt.present();
 								}
 process_sale(quantity1,unit_price,type){
+	
 	//sales logic after getting all the data we need
 if(unit_price<(this.sp-this.discount)){
 	//trying to sell below minium discount
@@ -263,6 +262,10 @@ var total=(quantity1*unit_price);
 		this.cartnumber=(this.cartnumber+1);
 		this.cartamount=(this.cartamount+total);
 		//reduce stock //local quantity
+
+this.provider.cartamount=this.cartamount;
+this.provider.cartnumber=this.cartnumber;
+//lets change the quantity in the filtered list in the provider
 		var j=0;
 		for(j=0;j<=(this.provider.filteredstockdata.length-1);j++){
 			if(this.provider.filteredstockdata[j].Id==this.id){
@@ -296,6 +299,8 @@ this.provider.orderitems.push({
 //update cart
 this.cartnumber=(this.cartnumber+1);
 this.cartamount=(this.cartamount+total);
+this.provider.cartnumber=(this.cartnumber+1);
+this.provider.cartamount=(this.cartamount+total);
 //reduce stock //local quantity
 var j=0;
 for(j=0;j<=(this.provider.filteredstockdata.length-1);j++){
@@ -334,5 +339,21 @@ completeorder(){
 									to_order(){
 									console.log('to order'+this.description);
 									}
+
+checkcurrentsales(){
+	//lets first check if there are existing sales or orders
+	//if exist but its a new customer, they should b cleared at the complete sales page.
+	if(this.provider.saleitems.length>0){
+this.iscart=true;
+
+	}
+	else if(this.provider.orderitems.length>0){
+this.isorder=true;
+	}
+	else{
+	this.iscart=false;
+	this.isorder=false;	
+	}
+}									
 
 }

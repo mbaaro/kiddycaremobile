@@ -29,6 +29,8 @@ export class BasicproviderProvider {
   	this.url='http://localhost/api/kiddycare/kiddycare.php?id=';
    this.saleitems=[];
    this.orderitems=[];
+   this.cartamount=0;
+   this.cartnumber=0;
   }
 
   getlocalcreds(){

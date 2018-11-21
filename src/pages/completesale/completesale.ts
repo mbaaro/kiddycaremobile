@@ -44,19 +44,19 @@ export class CompletesalePage {
 this.determinetype();
 this.cartnumber=this.provider.cartnumber;
   this.cartamount=this.provider.cartamount;
-  this.saleitems=this.provider.saleitems;
-  this.orderitems=this.provider.orderitems;
+ 
 }
 
   determinetype(){
 
   	//determining if we are going to display the order list or the sales list  depending on what the user has selected
 if(this.type='sale'){
-this.items=this.saleitems;
+this.items=this.provider.saleitems;
 this.issale=true;
+
   }
   else if(this.type='order'){
-this.items=this.orderitems;
+this.items=this.provider.orderitems;
 this.isorder=true;
   }
 
@@ -119,9 +119,9 @@ for(i=0;i<=(this.provider.saleitems.length-1);i++){
       if(this.provider.saleitems[i].id==id){
         //change the quantity and total amount in the local array
          this.provider.saleitems[i].quantity=(this.provider.saleitems[i].quantity+changedquantity);
-         this.provider.saleitems[i].total= ((this.provider.saleitems[i].quantity)*(this.provider.price));
+         this.provider.saleitems[i].total= ((this.provider.saleitems[i].quantity)*(this.provider.saleitems[i].price));
          //change the total amount
-         this.provider.cartamount=((changedquantity*this.provider.price)-this.provider.cartamount);
+         this.provider.cartamount=((changedquantity*this.provider.saleitems[i].price)-this.provider.cartamount);
 
 //lets change on the remote 
 this.http.get(this.url+'addstock&quantity='+changedquantity+'&itemid='+id,{headers:headers})
@@ -188,12 +188,6 @@ getpaymentmethod(){
 
 }
 /*
-remove item from list
-add item quantity
-reduce item quantity
-
-remove/add from local array
-remove/add to remote db
-
+check if existing list of sales or orders if exists, have option to clear or continue
 
 */
