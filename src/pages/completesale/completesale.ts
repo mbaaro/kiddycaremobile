@@ -184,6 +184,47 @@ getpaymentmethod(){
 	// get the method of payment
 }
 
+cleararray(type){
+  
+
+//if there exists items selected for sale or order and user selects to clear them, lets do that
+
+let alert = this.alertCtrl.create();
+    alert.setTitle('Select list to clear');
+
+    alert.addInput({
+      type: 'radio',
+      label: 'Clear current sales',
+      value: 'sales',
+      checked: true
+    });
+
+    alert.addInput({
+      type: 'radio',
+      label: 'Clear current orders',
+      value: 'orders',
+      checked: false
+    });
+
+
+    alert.addButton('Cancel');
+    alert.addButton({
+      text: 'OK',
+      handler: data => {
+        if(data=='sales'){
+          this.provider.saleitems=[];
+          this.saleitems=[];
+        }
+          else if(data='orders'){
+            this.provider.orderitems=[];
+            this.orderitems=[];
+          }
+      }
+    });
+ 
+
+}
+
 
 
 }
