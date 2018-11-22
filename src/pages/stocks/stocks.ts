@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,AlertController } from 'ionic-angular';
 import {PostitemPage} from '../postitem/postitem';
 import {CompletesalePage} from '../completesale/completesale';
+import {CompleteorderPage} from '../completeorder/completeorder';
 import{BasicproviderProvider} from '../../providers/basicprovider/basicprovider';
 import {Storage} from '@ionic/storage';
 import {Http,Headers} from '@angular/http';
@@ -203,7 +204,6 @@ buttons:[
 								title:'Quantity and price',
 								message: 'Enter Quantity to sell and unit price for one',
 								inputs:[
-								{name:'Customer',placeholder:'Customer'},
 								{name:'quantity_to_sell',placeholder:'Quantity'},
 								{name:'Unit_price', placeholder:'unit price'},
 								
@@ -288,6 +288,7 @@ this.provider.cartnumber=this.cartnumber;
 else if(type=='order'){
 this.isorder=true;	
 this.provider.orderitems.push({
+	'customer':customer,
 	'id':this.id,
 	'item':this.description,
 	'quantity':quantity1,
@@ -328,12 +329,12 @@ err=>{console.log(err)},
 									completesale(){
 										//go to page to complete sale or complete order
 										this.navCtrl.push(CompletesalePage,
-											{type:'sale',cartnumber:this.cartnumber,cartamount:this.cartamount});
+											{cartnumber:this.cartnumber,cartamount:this.cartamount});
 									}
 completeorder(){
 	//go to page to complete sale or complete order
-	this.navCtrl.push(CompletesalePage,
-		{type:'order',cartnumber:this.cartnumber,cartamount:this.cartamount});
+	this.navCtrl.push(CompleteorderPage,
+		{cartnumber:this.cartnumber,cartamount:this.cartamount});
 }
 
 									to_order(){

@@ -31,7 +31,7 @@ export class CompletesalePage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public provider:BasicproviderProvider,public http:Http,public alertCtrl:AlertController) {
   
-  this.type=this.navParams.get('type');
+  //this.type=this.navParams.get('type');
   
   this.issale=false;
   this.isorder=false;
@@ -41,18 +41,17 @@ export class CompletesalePage {
   }
 
   ionViewDidLoad() {
-this.determinetype();
+this.items=this.provider.saleitems;
+this.issale=true;
 this.cartnumber=this.provider.cartnumber;
   this.cartamount=this.provider.cartamount;
  
 }
 
-  determinetype(){
+ /* determinetype(){
 
   	//determining if we are going to display the order list or the sales list  depending on what the user has selected
 if(this.type='sale'){
-this.items=this.provider.saleitems;
-this.issale=true;
 
   }
   else if(this.type='order'){
@@ -60,7 +59,7 @@ this.items=this.provider.orderitems;
 this.isorder=true;
   }
 
-}
+}*/
 
 getchangequantity(change,id){
   const prompt=this.alertCtrl.create({
@@ -88,8 +87,7 @@ effectchange(changedquantity,id,change){
   //take what has been entered and make right decisions on amounts
   //iterate through the sold items array
   var i=0;
-  if(this.type=='sale'){
-
+ 
   	//if its an aadition to the order
   	if(change=='add'){
   	for(i=0;i<=(this.provider.saleitems.length-1);i++){
@@ -134,11 +132,8 @@ err=>{
 });
       }  } 	
   }	
-     }
-    else if(this.type='orders'){
-//lets have a different function for orders
-this.manorders(changedquantity,id,change);
-    }
+     
+   
 }
 deleteitem(id){
 	// we want to delete an item previously selected for sale
@@ -174,11 +169,7 @@ err=>{
    
 }
 
- manorders(
- 	changedquantity,id,change){
-    // mange the orders add item, reduce item,remove item	
 
-    }
 
 getpaymentmethod(){
 	// get the method of payment
@@ -187,43 +178,30 @@ getpaymentmethod(){
 cleararray(type){
   
 
-//if there exists items selected for sale or order and user selects to clear them, lets do that
+//if there exists items selected for sale and user selects to clear them, lets do that
 
-let alert = this.alertCtrl.create();
-    alert.setTitle('Select list to clear');
+let confirm=this.alertCtrl.create({
+	title:'Alert',
+	message:'Are you sure you wish to clear all items you have selected for sale?',
+	buttons:[
+{text:'Cancel',
+handler:data=>{},
+},{
+	text:'Clear',
+	handler:data=>{
+	this.provider.saleitems=[];
+          this.saleitems=[];	
+	}
+}
+	]
 
-    alert.addInput({
-      type: 'radio',
-      label: 'Clear current sales',
-      value: 'sales',
-      checked: true
-    });
-
-    alert.addInput({
-      type: 'radio',
-      label: 'Clear current orders',
-      value: 'orders',
-      checked: false
-    });
-
-
-    alert.addButton('Cancel');
-    alert.addButton({
-      text: 'OK',
-      handler: data => {
-        if(data=='sales'){
-          this.provider.saleitems=[];
-          this.saleitems=[];
-        }
-          else if(data='orders'){
-            this.provider.orderitems=[];
-            this.orderitems=[];
-          }
-      }
-    });
- 
+});
+confirm.present();
 
 }
+ 
+
+
 
 
 
