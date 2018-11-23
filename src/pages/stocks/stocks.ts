@@ -288,7 +288,7 @@ this.provider.cartnumber=this.cartnumber;
 else if(type=='order'){
 this.isorder=true;	
 this.provider.orderitems.push({
-	'customer':customer,
+
 	'id':this.id,
 	'item':this.description,
 	'quantity':quantity1,
@@ -303,7 +303,7 @@ this.cartamount=(this.cartamount+total);
 this.provider.cartnumber=(this.cartnumber+1);
 this.provider.cartamount=(this.cartamount+total);
 //reduce stock //local quantity
-var j=0;
+//var j=0;
 for(j=0;j<=(this.provider.filteredstockdata.length-1);j++){
 	if(this.provider.filteredstockdata[j].Id==this.id){
 this.provider.filteredstockdata[j].Quantity=(this.provider.filteredstockdata[j].Quantity-quantity1);
@@ -311,7 +311,7 @@ remaining=this.provider.filteredstockdata[j].Quantity;
 
 	}}
 //reduce stock  on remote db
-var headers=new Headers();
+//var headers=new Headers();
 	headers.append('Content-Type','application/x-www-form-urlencoded; charset=UTF-8');
 this.http.get(this.url+'reducestock&itemid='+this.id+'&quantity='+quantity1,{headers:headers})
 .map(res=>res.json())
@@ -358,3 +358,11 @@ this.isorder=true;
 }									
 
 }
+
+
+/* create a table tempstock  `id``itemid``quantity`
+on sale insert items into tempstock ,
+on sale complete truncate tble, empty local variable
+on sale cancel, remove from temp table to stock
+on app log on check if this local variable is populated
+*/
