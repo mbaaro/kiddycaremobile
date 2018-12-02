@@ -89,7 +89,36 @@ $items[]=array(
 
 echo json_encode(array('categories'=>$categories,'items'=>$items));
 }
- elseif($id=='getcategories'){
+elseif($id=='newstock'){/*
+$postdata=file_get_contents('php://input');
+//we are posting new items into stock.... lets get them from the encoded json and decode
+
+$decoded=$postdata;
+
+    $category=$decoded->category;
+    $description=$decoded->description;
+    $quantity=$decoded->quantity;
+    $buyingp=$decoded->buyingp;
+    $sellingp=$decoded->sellingp;
+    $maxdiscount=$decoded->maxdiscount;
+
+$currentquantity=0;
+$newquantity=0;
+//lets get how many of these items already exist in the databas
+$query1=$con->query("select sum(`Quantity`) AS Total from stocks where `Category`='$category'  and `ItemDesc`='$description' ");
+while($row=$query1->fetch_object()){
+$currentquantity=$row->Total
+}
+$newquantity=($currentquantity+$quantity);
+//update the quantity
+//INSERT INTO `stock` (`Category`, `ItemDesc`, `Quantity`, `BuyingPrice`, `SellingPrice`, `MaxDiscount`) VALUES (?, ?, ?,?,?,?) 
+ $query=$con->prepare("update `stocks` set `Quantity`=? where `Category`=? and `ItemDesc`=? ");
+   $query->bind_param('sss',$newquantity,$category,$description); 
+    $query->execute();
+echö $newquantity;
+ */}
+
+        elseif($id=='getcategories'){
             //lets fetch the existing  categories
             $query=$con->query("SELECT * FROM `categories` where deleted='0' ");
             while($row=$query->fetch_object()){
@@ -191,8 +220,6 @@ echo json_encode("Update successful");
     }else{
 echo json_encode("Update not successful");
     }
-    //insert the item into temp sales table
-   $con->query("INSERT INTO `tempstock`(`itemid`, `quantity`) VALUES ('$id1','$quantity')");
 
    
 } 
@@ -201,7 +228,7 @@ elseif($id=='addstock'){
 //readding stock that was previously remokved from stock
     //get what is already in stock
     $itemid=$_GET['itemid'];
-    $quantitychanged=$_GET['changedquantity'];
+    $quantitychanged=$_GET['quantity'];
     $newquantity=0;
     $query=$con->query("SELECT `Quantity` FROM `stock` where `Id`='$itemid'");
     while($row=$query->fetch_object()){
@@ -218,7 +245,14 @@ echo json_encode("Update not successful");
 
 
 }   
+elseif($id=='cleararray'){
+$postdata=file_get_contents("php://input");
+$response=json_decode($postdata);
+$fw=fopen('testarray.php', 'a');
+fwrite($fw, $response);
+//echo json_encode($response);
 
+} 
 elseif($id==''){}      
 
     else{
@@ -232,14 +266,10 @@ elseif($id==''){}
 	}
 
 
-	function tempstock($itemid,$quantity,){
-        //temporariry store quantities marked for sales
-        $con=connect();
-$con->query("INSERT INTO `tempstock`(`itemid`, `quantity`) VALUES ('$itemid','$quantity')");
-    }	
+	
+	
 	
 function connect(){
-
     $con=new mysqli('localhost','root','','kiddycare');
     return $con;
 }

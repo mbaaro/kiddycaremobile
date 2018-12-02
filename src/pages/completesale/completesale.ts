@@ -64,9 +64,9 @@ this.isorder=true;
 getchangequantity(change,id){
   const prompt=this.alertCtrl.create({
     title:'Add By',
-    message:'Please enter the quantity to add',
+    message:'Please enter the quantity to add / reduce',
     inputs:[{
-      name:'added',placeholder:'number to add'}],
+      name:'added',placeholder:'number to add or reduce'}],
     buttons:[{
       text:'cancel',
       handler:data=>{}
@@ -189,8 +189,17 @@ handler:data=>{},
 },{
 	text:'Clear',
 	handler:data=>{
-	this.provider.saleitems=[];
-          this.saleitems=[];	
+		//lets send the array to the database for reversal
+		let body=JSON.stringify({
+			data:this.provider.saleitems,
+			});
+		var headers=new Headers();
+    headers.append('Content-Type','application/x-www-form-urlencoded; charset=UTF-8');
+    this.http.post(this.url+"cleararray",body,{headers:headers}).subscribe(data=>{
+    this.provider.saleitems=[];
+          this.saleitems=[];		
+    });
+	
 	}
 }
 	]
