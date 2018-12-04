@@ -31,6 +31,7 @@ export class BasicproviderProvider {
    this.orderitems=[];
    this.cartamount=0;
    this.cartnumber=0;
+   this.uname="";
   }
 
   getlocalcreds(){

@@ -31,7 +31,7 @@ export class LoginPage {
 	response:any;
 	count:any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public formBuilder:FormBuilder,public http:Http,public basicprovider:BasicproviderProvider,public storage:Storage) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public formBuilder:FormBuilder,public http:Http,public provider:BasicproviderProvider,public storage:Storage) {
   	this.http=http;
   	this.count=0;
   	this.uname="";this.upass="",this.utype=""
@@ -83,6 +83,8 @@ this.storage.set('uname',formvalues.uname);
 this.storage.set('upass',formvalues.upass);
 this.storage.set('utype',this.response.Utype);
 this.storage.set('Lname',this.response.Lastname);
+//set the username in the provider to be used in sales
+this.provider.uname=formvalues.uname;
 
 //naviigate to the stocks page
 this.navCtrl.push(StocksPage);

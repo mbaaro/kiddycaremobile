@@ -276,7 +276,7 @@ this.provider.cartnumber=this.cartnumber;
 		//reduce stock  on remote db
 		var headers=new Headers();
 			headers.append('Content-Type','application/x-www-form-urlencoded; charset=UTF-8');
-		this.http.get(this.url+'reducestock&itemid='+this.id+'&quantity='+quantity1,{headers:headers})
+		this.http.get(this.url+'reducestock&itemid='+this.id+'&quantity='+quantity1+'&uname='+this.provider.uname,{headers:headers})
 		.map(res=>res.json())
 		.subscribe(data=>{
 		alert(data);
