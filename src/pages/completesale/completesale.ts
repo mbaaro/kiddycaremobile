@@ -48,19 +48,6 @@ this.cartnumber=this.provider.cartnumber;
  
 }
 
- /* determinetype(){
-
-  	//determining if we are going to display the order list or the sales list  depending on what the user has selected
-if(this.type='sale'){
-
-  }
-  else if(this.type='order'){
-this.items=this.provider.orderitems;
-this.isorder=true;
-  }
-
-}*/
-
 getchangequantity(change,id){
   const prompt=this.alertCtrl.create({
     title:'Add By',
@@ -144,8 +131,7 @@ deleteitem(id){
 	var headers=new Headers();
     headers.append('Content-Type','application/x-www-form-urlencoded; charset=UTF-8');
     var i=0;
-  	var returnedqty=0;
-  	//we want to remove some item from the ordr completely ;  	//iterate the array to get the record
+     	//iterate the array to get the record
   	//get sum and quantity and subtract from the total values and add the item quantity on the db;    	//remove item from array
  for(i=0;i<=(this.provider.saleitems.length-1);i++){
 if(this.provider.saleitems[i].id==id){
@@ -155,7 +141,7 @@ this.provider.cartnumber=(this.provider.cartnumber-1);
 returnedqty=this.provider.saleitems[i].quantity;
 //remove record from array
 //this.provider.saleitems.pop([i]);
-this.provider.saleitems.slice(i);
+this.provider.saleitems.splice(i,1);
 //update the db
 this.http.get(this.url+'addstock&quantity='+returnedqty+'&itemid='+id+'&uname='+this.provider.uname,{headers:headers})
 .map(res=>res.json())
@@ -174,15 +160,67 @@ err=>{
 }
 
 
-
 getpaymentmethod(){
-	// get the method of payment
+	// get the method of payment used
+ let alert=this.alertCtrl.create();
+ alert.setTitle("Select Payment method");
+ alert.addInput({
+  type:'radio',
+  label:'Cash',
+  value:'Cash',
+  checked: false
+ });
+ alert.addInput({
+  type:'radio',
+  label:'Mpesa',
+  value:'Mpesa',
+  checked: false
+ });
+ alert.addInput({
+  type:'radio',
+  label:'Cheque',
+  value:'Cheque',
+  checked: false
+ });
+ alert.addButton('Cancel');
+    alert.addButton({
+      text: 'OK',
+      handler: data => {
+        this.completesale(data);
+      }
+    });
+    alert.present();
+}
+completesale(data){
+  //lets complete this sale now
+  let body=JSON.stringify({
+    method:data,
+    user:this.provider.uname,
+    saleitems:this.provider.saleitems
+  });
+ //let us post the data
+  var headers=new Headers();
+    headers.append('Content-Type','application/x-www-form-urlencoded; charset=UTF-8');
+    this.http.post(this.url+"completesale",body,{headers:headers}).subscribe(data=>{
+      this.provider.saleitems=[];
+//clear the cart values for sales
+this.clearcart();
+    });
+}
+clearcart(){
+  //reducing the cart figures without changing those for orders
+  var j=0;
+  for(j=0;j<=this.provider.saleitems.length-1;j++){
+
+    this.provider.cartamount=(this.provider.cartamount-this.provider.saleitems[i].total);
+this.provider.cartnumber=(this.provider.cartnumber-1);
+this.provider.saleitems.pop();
+  }
+  this.issale=false;
 }
 
 cleararray(type){
-  
-
-//if there exists items selected for sale and user selects to clear them, lets do that
+ //if there exists items selected for sale and user selects to clear them, lets do that
 
 let confirm=this.alertCtrl.create({
 	title:'Alert',

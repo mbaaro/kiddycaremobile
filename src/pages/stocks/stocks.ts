@@ -277,7 +277,7 @@ this.provider.cartnumber=this.cartnumber;
 		//reduce stock  on remote db
 	
 			headers.append('Content-Type','application/x-www-form-urlencoded; charset=UTF-8');
-		this.http.get(this.url+'reducestock&itemid='+this.id+'&quantity='+quantity1+'&uname='+this.provider.uname,{headers:headers})
+		this.http.get(this.url+'reducestock&itemid='+this.id+'&quantity='+quantity1+'&uname='+this.provider.uname+'&type=sale',{headers:headers})
 		.map(res=>res.json())
 		.subscribe(data=>{
 		alert(data);
@@ -287,41 +287,41 @@ this.provider.cartnumber=this.cartnumber;
 
 		}
 else if(type=='order'){
-this.isorder=true;	
-this.provider.orderitems.push({
+	this.iscart=true;
+		this.provider.orderitems.push({
+			'id':this.id,
+			'item':this.description,
+			'quantity':quantity1,
+			'price':unit_price,
+			'total':total,
+			'seller':this.provider.uname,
 
-	'id':this.id,
-	'item':this.description,
-	'quantity':quantity1,
-	'price':unit_price,
-	'total':total,
-	'seller':this.provider.uname,
+		});
+		//update cart
+		this.cartnumber=(this.cartnumber+1);
+		this.cartamount=(this.cartamount+total);
+		//reduce stock //local quantity
 
-});
-//update cart
-this.cartnumber=(this.cartnumber+1);
-this.cartamount=(this.cartamount+total);
-this.provider.cartnumber=(this.cartnumber+1);
-this.provider.cartamount=(this.cartamount+total);
-//reduce stock //local quantity
-//var j=0;
-for(j=0;j<=(this.provider.filteredstockdata.length-1);j++){
-	if(this.provider.filteredstockdata[j].Id==this.id){
-this.provider.filteredstockdata[j].Quantity=(this.provider.filteredstockdata[j].Quantity-quantity1);
-remaining=this.provider.filteredstockdata[j].Quantity;
+this.provider.cartamount=this.cartamount;
+this.provider.cartnumber=this.cartnumber;
+//lets change the quantity in the filtered list in the provider
+		var j=0;
+		for(j=0;j<=(this.provider.filteredstockdata.length-1);j++){
+			if(this.provider.filteredstockdata[j].Id==this.id){
+		this.provider.filteredstockdata[j].Quantity=(this.provider.filteredstockdata[j].Quantity-quantity1);
+		remaining=this.provider.filteredstockdata[j].Quantity;
 
-	}}
-//reduce stock  on remote db
-//var headers=new Headers();
-	headers.append('Content-Type','application/x-www-form-urlencoded; charset=UTF-8');
-this.http.get(this.url+'reducestock&itemid='+this.id+'&quantity='+quantity1+'&uname='+this.provider.uname,{headers:headers})
-.map(res=>res.json())
-.subscribe(data=>{
-alert(data);
-},
-err=>{console.log(err)},
-()=>{});
-
+			}}
+		//reduce stock  on remote db
+	
+			headers.append('Content-Type','application/x-www-form-urlencoded; charset=UTF-8');
+		this.http.get(this.url+'reducestock&itemid='+this.id+'&quantity='+quantity1+'&uname='+this.provider.uname+'&type=order',{headers:headers})
+		.map(res=>res.json())
+		.subscribe(data=>{
+		alert(data);
+		},
+		err=>{console.log(err)},
+		()=>{});
 }
 
 }

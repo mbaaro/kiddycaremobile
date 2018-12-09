@@ -17,7 +17,7 @@
 <ion-fab top right edge>
     <button ion-fab mini (click)="cleararray()" color="primary"><ion-icon name="trash"></ion-icon></button>
     </ion-fab>
-  
+  <p text-center><b>TOTAL SALE:&emsp;&emsp;{{cartamount}}</b></p>
 <ion-list *ngFor="let cart of items">
 <ion-item-sliding>
 <ion-item>
@@ -41,5 +41,6 @@
 
 </ion-item-sliding>
 </ion-list>
-
+<br><br>
+<button ion-button (click)="getpaymentmethod()">Complete sale</button>
 </ion-content>
