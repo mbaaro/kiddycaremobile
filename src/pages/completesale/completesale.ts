@@ -94,7 +94,7 @@ effectchange(changedquantity,id,change){
       //iterating through  the sales items 
       if(this.provider.saleitems[i].id==id){
         //change the quantity and total amount in the local array
-         this.provider.saleitems[i].quantity=(this.provider.saleitems[i].quantity-changedquantity);
+         this.provider.saleitems[i].quantity=(Number(this.provider.saleitems[i].quantity)+Number(changedquantity));
          this.provider.saleitems[i].total= ((this.provider.saleitems[i].quantity)*(this.provider.saleitems[i].price));
          //change the total amount
          this.provider.cartamount=((changedquantity*this.provider.saleitems[i].price)+this.provider.cartamount);
@@ -111,15 +111,19 @@ err=>{
       }  } 	
   	}
   else if(change=='reduce'){
+    console.log( this.provider.saleitems[i].quantity);
   	//we want to reduce some item on the order
 for(i=0;i<=(this.provider.saleitems.length-1);i++){
-      //iterating through  the sales items 
-      if(this.provider.saleitems[i].id==id){
+  if(this.provider.saleitems[i].id==id &&(this.provider.saleitems[i].quantity<changedquantity)){
+    alert("Reduce by a number equal or less to this selection");
+  }
+      //iterating through  the sales items but make sure you are not subtracting more than in the array 
+     else if(this.provider.saleitems[i].id==id &&(this.provider.saleitems[i].quantity==changedquantity||this.provider.saleitems[i].quantity>changedquantity)){
         //change the quantity and total amount in the local array
-         this.provider.saleitems[i].quantity=(this.provider.saleitems[i].quantity+changedquantity);
-         this.provider.saleitems[i].total= ((this.provider.saleitems[i].quantity)*(this.provider.saleitems[i].price));
+           this.provider.saleitems[i].quantity=(Number(this.provider.saleitems[i].quantity)-Number(changedquantity));
+          this.provider.saleitems[i].total= ((this.provider.saleitems[i].quantity)*(this.provider.saleitems[i].price));
          //change the total amount
-         this.provider.cartamount=((changedquantity*this.provider.saleitems[i].price)-this.provider.cartamount);
+         this.provider.cartamount=(Number(this.provider.cartamount)-(changedquantity*this.provider.saleitems[i].price));
 
 //lets change on the remote 
 this.http.get(this.url+'addstock&quantity='+changedquantity+'&itemid='+id+'&uname='+this.provider.uname,{headers:headers})
@@ -153,7 +157,7 @@ returnedqty=this.provider.saleitems[i].quantity;
 //this.provider.saleitems.pop([i]);
 this.provider.saleitems.slice(i);
 //update the db
-this.http.get(this.url+'addstock&quantity='+returnedqty+'&itemid='+id,{headers:headers})
+this.http.get(this.url+'addstock&quantity='+returnedqty+'&itemid='+id+'&uname='+this.provider.uname,{headers:headers})
 .map(res=>res.json())
 .subscribe(data=>{
   console.log(data);

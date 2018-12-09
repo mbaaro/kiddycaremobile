@@ -234,22 +234,23 @@ elseif($id=='addstock'){
     $quantitychanged=$_GET['quantity'];
     $newquantity=0;
     $oldquantity=0;
+     $uname=$_GET['uname'];
     $query=$con->query("SELECT `Quantity` FROM `stock` where `Id`='$itemid'");
     while($row=$query->fetch_object()){
 $newquantity=(($row->Quantity)+$quantitychanged);
 $oldquantity=$row->Quantity;
-    }
+   
     //update what is in stock
     $qry=$con->prepare("UPDATE `stock` SET `Quantity`=? WHERE `Id`=?");
     $qry->bind_param('ss',$newquantity,$itemid);
     if($qry->execute()){
         //lets update what was in the tempdata
        // updatetemp($item,$newquantity,$username,$quantity);
-        updatetemp($itemid,($oldquantity-$quantitychanged),$uname,$oldquantity);
+        updatetemp($itemid,$uname,$quantitychanged);
 echo json_encode("Update successful");
     }else{
 echo json_encode("Update not successful");
-    }
+    }}
 
 
 }   
@@ -283,17 +284,22 @@ elseif($id==''){}
 
 
     }
-    function updatetemp($item,$newquantity,$username,$quantity){
-        //lets insert the item picked temporariry into a table
+    function updatetemp($item,$username,$quantity){
+       
  $con=new mysqli('localhost','root','','kiddycare');
  
 //lets update the quatity
-  $query=$con->prepare("UPDATE  `tempsales` SET `quantity`=? WHERE `username`=? AND `itemid`=?, AND `quantity`=? ");
-    $query->bind_param('ssss',$newquantity,$username,$item,$quantity);
-    $query->execute();  
 
-    }
-	
+ $query=$con->query("select * from `tempsales` where `itemid`='$item' and `username`='$username' and `quantity`>0 order by `quantity` limit 1");
+ //var_dump($query->fetch_object());
+ while($row=$query->fetch_object()){
+$newqty=(($row->quantity)-$quantity);
+$id=$row->id;
+  $query1=$con->prepare("UPDATE  `tempsales` SET `quantity`=? where `id`=? ");
+    $query1->bind_param('ss',$newqty,$id);
+   $query1->execute();
+ }
+	}
 	
 function connect(){
     $con=new mysqli('localhost','root','','kiddycare');

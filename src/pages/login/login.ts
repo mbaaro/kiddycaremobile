@@ -36,7 +36,7 @@ export class LoginPage {
   	this.count=0;
   	this.uname="";this.upass="",this.utype=""
   //this.url='http://localhost/api/kiddycare/kiddycare.php?id=';
-  this.url=this.basicprovider.url;
+  this.url=this.provider.url;
 
   	this.myform=formBuilder.group({
   		uname:['',Validators.required],
