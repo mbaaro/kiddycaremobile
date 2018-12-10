@@ -4,6 +4,7 @@ import {Storage} from '@ionic/storage';
 import{LoginPage} from '../login/login';
 import {BasicproviderProvider} from '../../providers/basicprovider/basicprovider';
 import{StocksPage} from'../stocks/stocks';
+import {MadeordersPage} from'../madeorders/madeorders';
 
 /**
  * Generated class for the StartPage page.
@@ -77,6 +78,10 @@ if(this.uname=="" || this.uname==null){
   }
 
 
+  }
+  madeorders(){
+    //navigate to the page listing made orders
+this.navCtrl.push(MadeordersPage);
   }
 
 

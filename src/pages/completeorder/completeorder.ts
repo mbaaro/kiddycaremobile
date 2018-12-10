@@ -20,17 +20,17 @@ import 'rxjs/add/operator/map';
 export class CompleteorderPage {
 cartamount:any;
 	cartnumber:any;
-	orderitems:any;
+	saleitems:any;
 	orderitems:any;
 	type:any;
-	isorder:boolean;
+	issale:boolean;
 	isorder:boolean;
 	items:any;
   url:any;
   unitprice:any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public provider:BasicproviderProvider,public http:Http,public alertCtrl:AlertController) {
-   this.isorder=false;
+   this.issale=false;
   this.isorder=false;
   this.http=http;
   this.url=this.provider.url;
@@ -84,7 +84,7 @@ effectchange(changedquantity,id,change){
          this.provider.cartamount=((changedquantity*this.provider.orderitems[i].price)+this.provider.cartamount);
 
 //lets change on the remote 
-this.http.get(this.url+'reducestock&quantity='+changedquantity+'&itemid='+id+'&uname='+this.provider.uname,{headers:headers})
+this.http.get(this.url+'reducestock&quantity='+changedquantity+'&itemid='+id+'&uname='+this.provider.uname+'&type=order',{headers:headers})
 .map(res=>res.json())
 .subscribe(data=>{
   console.log(data);
@@ -156,13 +156,14 @@ err=>{
   }
    
 }
-completeorder(customer,notes){
+completeorders(customer,notes,phone){
   //lets complete this order now
   let body=JSON.stringify({
    customer:customer,
    notes:notes,
     user:this.provider.uname,
-    orderitems:this.provider.orderitems
+    orderitems:this.provider.orderitems,
+    phone:phone
   });
  //let us post the data
   var headers=new Headers();
@@ -178,7 +179,7 @@ clearcart(){
   var j=0;
   for(j=0;j<=this.provider.orderitems.length-1;j++){
 
-    this.provider.cartamount=(this.provider.cartamount-this.provider.orderitems[i].total);
+    this.provider.cartamount=(this.provider.cartamount-this.provider.orderitems[j].total);
 this.provider.cartnumber=(this.provider.cartnumber-1);
 this.provider.orderitems.pop();
   }
@@ -189,20 +190,17 @@ this.provider.orderitems.pop();
 getcustomer(){
 	// get the method of payment
 	let prompt=this.alertCtrl.create({
-		title:'Add customer name',
-		message:'Enter the name of customer making order',
+		title:'Order Details',
+		message:'Enter the details of this order',
 		inputs:[
-{name:'customer',
-placeholder:'Customer name'},
-{
-	name:'notes',
-	placeholder:'Order notes to remember'
-}
+{name:'customer',placeholder:'Customer name'},
+{name:'phone',placeholder:'Phone number'},
+{	name:'notes',	placeholder:'Order notes to remember'}
 		],
 		buttons:[{
 text:'OK',
 handler:data=>{
-this.completeorder(data.customer,data.notes);
+this.completeorders(data.customer,data.notes,data.phone);
 }	},
 		{text:'Cancel',handler:data=>{}}
 		]});
@@ -225,6 +223,8 @@ handler:data=>{},
 	handler:data=>{
 		//lets send the array to the database for reversal
 		let body=JSON.stringify({
+      uname:this.provider.uname,
+      type:order,
 			data:this.provider.orderitems,
 			});
 		var headers=new Headers();

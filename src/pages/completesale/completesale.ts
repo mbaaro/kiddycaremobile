@@ -87,7 +87,7 @@ effectchange(changedquantity,id,change){
          this.provider.cartamount=((changedquantity*this.provider.saleitems[i].price)+this.provider.cartamount);
 
 //lets change on the remote 
-this.http.get(this.url+'reducestock&quantity='+changedquantity+'&itemid='+id+'&uname='+this.provider.uname,{headers:headers})
+this.http.get(this.url+'reducestock&quantity='+changedquantity+'&itemid='+id+'&uname='+this.provider.uname+'&type=sale',{headers:headers})
 .map(res=>res.json())
 .subscribe(data=>{
   console.log(data);

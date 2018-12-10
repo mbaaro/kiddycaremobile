@@ -202,12 +202,12 @@ buttons:[
 								//get the quantity to sell and the price
 									const prompt=this.alertCtr.create({
 								title:'Quantity and price',
-								message: 'Enter Quantity to sell and unit price for one',
+								message: 'Order Details',
 								inputs:[
+
 								{name:'quantity_to_sell',placeholder:'Quantity'},
 								{name:'Unit_price', placeholder:'unit price'},
-								
-								],
+																],
 								buttons:[
 								{
 								          text: 'Cancel ',

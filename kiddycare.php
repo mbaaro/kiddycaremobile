@@ -560,12 +560,61 @@ foreach ($saleitems as $sold) {
 $con->execute("delete * from `tempsales` where `username`='$username' and `type`='sale' ");
 }      
 elseif($id=='completeorder'){
-    //create an order table,
-    //insert into the order table
-    //delete from the temp sales table
-    
+//lets clear contents of order
+    $postdata=file_get_contents("php://input");
+    $result=json_decode($postdata);
+   $customer=$result->customer;
+   $notes=$result->notes;
+   $phone=$result->phone;
+$orderitems=$results->orderitems;
+$username=$results->uname;
+//get the order id
+$orderid=0;
+$query1=$con->query("SELECT max(`OrderId`) as `maxid` FROM `orders`");
+while($row=$query1->fetch_object()){
+$orderid=($row->maxid+1);
+}
+foreach ($orderitems as $items) {
+  //lets insert into the stocks table
+    $query=$con->prepare("INSERT INTO `orders`( `OrderNo`, `CustomerName`, `CustomerPhone`, `Item`, `Quatity`, `Description`, `username`) VALUES (?,?,?,?,?,?,?)");
+    $query->bind_param('sssssss',$orderid,$customer,$phone,$items->item,$items->quantity,$notes,$username);
+    $query->execute();
+}
+//after all have been inserted, lets delete from the temp slaes
+$con->query("Delete from `tempsales` where `username`='$username' and `type`='order' ");
+
 }   
-elseif($id==''){}       
+elseif($id=='fetchorders'){
+    //get all the uncollected orders
+    //`OrderId`,`OrderNo`,`CustomerName`,`CustomerPhone`,`Item`,`Quatity`,`Quatity``Description`,`OrderDate`,`Delivered`,`username`
+   $orderno=$con->query("SELECT DISTINCT(`OrderNo`) as `order_no` from `orders` where `Delivered`=false");
+   while($row1=$orderno->fetch_object()){
+    $data2[]=array(
+'order_no'=>$row1->order_no,
+        );
+   }
+    $customer=$con->query("SELECT DISTINCT(`CustomerName`) as `customer` from `orders` where `Delivered`=false ");
+   while($row1=$customer->fetch_object()){
+    $data1[]=array(
+'customer'=>$row1->customer,
+        );
+   }
+   $query=$con->query("SELECT * FROM `orders` WHERE `Delivered`='0'");
+    while($row=$query->fetch_object()){
+$data[]=array(
+'orderno'=>$row->OrderNo,
+'CustomerName'=>$row->CustomerName,
+'CustomerPhone'=>$row->CustomerPhone,
+'Item'=>$row->Item,
+'Quatity'=>$row->Quatity,
+'Description'=>$row->Description,
+'username'=>$row->username,
+
+    );
+    }
+    echo json_encode(array('orderno'=>$data1,'customer'=>$data2,'data'=>$data));
+}  
+elseif($id==''){}      
 
 
 
