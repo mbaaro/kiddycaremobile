@@ -160,7 +160,7 @@ completeorder(customer,notes){
   //lets complete this order now
   let body=JSON.stringify({
    customer:customer,
-   notes:notes
+   notes:notes,
     user:this.provider.uname,
     orderitems:this.provider.orderitems
   });
