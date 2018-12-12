@@ -21,11 +21,15 @@ url:any;
 mydata:any;
 customers:any;
 orders:any;
-customers:any;
+ordernos:any;
+filtereddata:any;
+filteredordernos:any;
+isorderno:boolean;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public http:Http,public provider:BasicproviderProvider) {
   this.http=http;
   this.url=this.provider.url;
+  this.isorderno=false;
   }
 
   ionViewDidLoad() {
@@ -38,20 +42,35 @@ customers:any;
   	this.http.get(this.url+'fetchorders')
   	.map(res=>res.json())
   	.subscribe(data=>{
-  		this.ordrnos=data.orderno;
-this.customers=data.customer;
+  		this.ordernos=data.orderno;
+        this.customers=data.customer;
   		this.mydata=data.data;
-  		console.log(data.customer+"DHDHDH");
+  		this.filtereddata=this.mydata;
+  		this.filteredordernos=this.ordernos; /// will be shown when a custmer is selected
+  		/*console.log(this.filteredordernos);
+  		console.log(this.filtereddata);
+  		console.log(this.customers);
+  		*/
   	},
 err=>{console.log(err)},
 ()=>{}
   		)
 
   }
-  iterateorders(data){
-  	//we want to iterate through the returned orders data
-
+  customerfilter(event){
+  	var customer=event;
+console.log(customer);
+//set filtered number
   }
+ numberfilter(event){
+
+
+ 	//is order boolean
+ 	//set
+ 	var number=event;
+console.log(number);
+ }
+
 
 
 

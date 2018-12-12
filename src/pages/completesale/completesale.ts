@@ -127,6 +127,7 @@ err=>{
    
 }
 deleteitem(id){
+  var  returnedqty=0;
 	// we want to delete an item previously selected for sale
 	var headers=new Headers();
     headers.append('Content-Type','application/x-www-form-urlencoded; charset=UTF-8');
@@ -212,7 +213,7 @@ clearcart(){
   var j=0;
   for(j=0;j<=this.provider.saleitems.length-1;j++){
 
-    this.provider.cartamount=(this.provider.cartamount-this.provider.saleitems[i].total);
+    this.provider.cartamount=(this.provider.cartamount-this.provider.saleitems[j].total);
 this.provider.cartnumber=(this.provider.cartnumber-1);
 this.provider.saleitems.pop();
   }
@@ -233,6 +234,8 @@ handler:data=>{},
 	handler:data=>{
 		//lets send the array to the database for reversal
 		let body=JSON.stringify({
+      uname:this.provider.uname,
+      type:'sale',
 			data:this.provider.saleitems,
 			});
 		var headers=new Headers();

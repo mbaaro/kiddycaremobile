@@ -180,65 +180,9 @@ echo json_encode(array('categories'=>$categories,'items'=>$items));
 
 }
 
-elseif($id=='newstock'){/*
-
-$postdata=file_get_contents('php://input');
-
-//we are posting new items into stock.... lets get them from the encoded json and decode
-
-
-
-$decoded=$postdata;
-
-
-
-    $category=$decoded->category;
-
-    $description=$decoded->description;
-
-    $quantity=$decoded->quantity;
-
-    $buyingp=$decoded->buyingp;
-
-    $sellingp=$decoded->sellingp;
-
-    $maxdiscount=$decoded->maxdiscount;
-
-
-
-$currentquantity=0;
-
-$newquantity=0;
-
-//lets get how many of these items already exist in the databas
-
-$query1=$con->query("select sum(`Quantity`) AS Total from stocks where `Category`='$category'  and `ItemDesc`='$description' ");
-
-while($row=$query1->fetch_object()){
-
-$currentquantity=$row->Total
-
+elseif($id=='newstock'){
 }
-
-$newquantity=($currentquantity+$quantity);
-
-//update the quantity
-
-//INSERT INTO `stock` (`Category`, `ItemDesc`, `Quantity`, `BuyingPrice`, `SellingPrice`, `MaxDiscount`) VALUES (?, ?, ?,?,?,?) 
-
- $query=$con->prepare("update `stocks` set `Quantity`=? where `Category`=? and `ItemDesc`=? ");
-
-   $query->bind_param('sss',$newquantity,$category,$description); 
-
-    $query->execute();
-
-echö $newquantity;
-
- */}
-
-
-
-        elseif($id=='getcategories'){
+elseif($id=='getcategories'){
 
             //lets fetch the existing  categories
 
@@ -256,19 +200,12 @@ echö $newquantity;
 
 //'Deleted'=>$row->Deleted
 
-                    );
+  ); }
 
-
-
-            }
-
-            echo json_encode(array('data'=>$data));
+    echo json_encode(array('data'=>$data));
 
         }
-
-
-
-        elseif($id=='deletecategory'){
+ elseif($id=='deletecategory'){
 
 //lets set the category requested to deleted
 
@@ -281,10 +218,7 @@ echö $newquantity;
             $query->execute();
 
  echo json_encode("Category deleted");
-
-
-
-        }   
+}   
 
         elseif($id=='postcategory'){
 
@@ -609,10 +543,11 @@ $data[]=array(
 'Quatity'=>$row->Quatity,
 'Description'=>$row->Description,
 'username'=>$row->username,
+'date'=>date('d-m-Y',strtotime($row->OrderDate)),
 
     );
     }
-    echo json_encode(array('orderno'=>$data1,'customer'=>$data2,'data'=>$data));
+    echo json_encode(array('orderno'=>$data2,'customer'=>$data1,'data'=>$data));
 }  
 elseif($id==''){}      
 

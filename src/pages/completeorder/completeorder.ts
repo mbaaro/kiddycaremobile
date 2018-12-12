@@ -224,7 +224,7 @@ handler:data=>{},
 		//lets send the array to the database for reversal
 		let body=JSON.stringify({
       uname:this.provider.uname,
-      type:order,
+      type:'order',
 			data:this.provider.orderitems,
 			});
 		var headers=new Headers();

@@ -14,5 +14,35 @@
 
 
 <ion-content padding>
+<ion-item>
+<ion-label floating>Pick Customer</ion-label>
+<ion-select (ionChange)="customerfilter($event)">
+	<ion-option  *ngFor="let customers of customers" value={{customers.customer}}>{{customers.customer}}</ion-option>
+</ion-select><br>
+<ion-label>Specific order for customer</ion-label>
+<ion-select (ionChange)="numberfilter($event)">
+	<ion-option  *ngFor="let orderno of filteredordernos" value={{orderno.order_no}}>{{orderno.order_no}}</ion-option>
+</ion-select>
+</ion-item>
+<ion-item *ngFor="let orders of filtereddata">
+<ion-card >
+	<ion-card-header>
+	<b>Date: {{orders.date}} &emsp;&emsp; Customer: {{orders.CustomerName}}&emsp;&emsp;Order: {{orders.orderno}}</b>
+	</ion-card-header>
+	<ion-card-content>
+		<b>Item:</b>&emsp;&emsp;{{orders.Item}}<br>
+		<b>Quantity:</b>&emsp;&emsp;&emsp;{{orders.Quantity}}<br>
+		<b>Notes:</b>&emsp;{{orders.Description}}<br>
+		<b>Customer Phone:</b>&emsp;&emsp;&emsp;{{orders.CustomerPhone}}<br>
+		<b>Served by:</b>&emsp;&emsp;&emsp;{{orders.username}}<br>
+
+	</ion-card-content>
+</ion-card>
+
+</ion-item>
+<button ion-button *ngIf="isorderno">Cancel order</button>
 
 </ion-content>
+
+	<!--<b> {{orders.date}}</b>&emps;&emps;<b>Customer: {{orders.CustomerName}}</b> &emps;&emps;<b>Order: {{orders.orderno}}</b> -->
+
