@@ -46,7 +46,8 @@ isorderno:boolean;
         this.customers=data.customer;
   		this.mydata=data.data;
   		this.filtereddata=this.mydata;
-  		this.filteredordernos=this.ordernos; /// will be shown when a custmer is selected
+  		this.filteredordernos=this.ordernos; 
+     /// will be shown when a custmer is selected
   		/*console.log(this.filteredordernos);
   		console.log(this.filtereddata);
   		console.log(this.customers);
@@ -58,8 +59,20 @@ err=>{console.log(err)},
 
   }
   customerfilter(event){
-  	var customer=event;
-console.log(customer);
+  	//first empty the order numbers
+  	this.filteredordernos=[];
+  	var i=0;
+   	var customer1=event;
+   	for(i=0;i<=this.mydata.length-1;i++){
+    if(this.mydata[i].CustomerName==event){
+	//lets set the filtered order numbers to only those of the selected customers
+  	this.filteredordernos.push({
+		order_no:this.mydata[i].orderno
+	});
+   	}
+}
+console.log(this.filteredordernos);
+console.log(this.mydata);
 //set filtered number
   }
  numberfilter(event){

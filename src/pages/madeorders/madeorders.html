@@ -1,9 +1,4 @@
-<!--
-  Generated template for the MadeordersPage page.
 
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
@@ -18,7 +13,8 @@
 <ion-label floating>Pick Customer</ion-label>
 <ion-select (ionChange)="customerfilter($event)">
 	<ion-option  *ngFor="let customers of customers" value={{customers.customer}}>{{customers.customer}}</ion-option>
-</ion-select><br>
+</ion-select><br><hr>
+
 <ion-label>Specific order for customer</ion-label>
 <ion-select (ionChange)="numberfilter($event)">
 	<ion-option  *ngFor="let orderno of filteredordernos" value={{orderno.order_no}}>{{orderno.order_no}}</ion-option>
