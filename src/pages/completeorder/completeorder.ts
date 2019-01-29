@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams,AlertController } from 'ionic-angul
 import {BasicproviderProvider} from '../../providers/basicprovider/basicprovider';
 import {Http,Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
+import {StocksPage} from '../stocks/stocks';
 
 
 /**
@@ -158,7 +159,8 @@ err=>{
 }
 completeorders(customer,notes,phone){
   //lets complete this order now
-  let body=JSON.stringify({
+
+ let body=JSON.stringify({
    customer:customer,
    notes:notes,
     user:this.provider.uname,
@@ -179,11 +181,13 @@ clearcart(){
   var j=0;
   for(j=0;j<=this.provider.orderitems.length-1;j++){
 
-    this.provider.cartamount=(this.provider.cartamount-this.provider.orderitems[j].total);
+this.provider.cartamount=(this.provider.cartamount-this.provider.orderitems[j].total);
 this.provider.cartnumber=(this.provider.cartnumber-1);
 this.provider.orderitems.pop();
   }
   this.isorder=false;
+  //exit this page and go back to the stocks page
+  this.navCtrl.push(StocksPage);
 }
 
 

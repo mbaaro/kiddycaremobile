@@ -287,7 +287,7 @@ this.provider.cartnumber=this.cartnumber;
 
 		}
 else if(type=='order'){
-	this.iscart=true;
+	this.isorder=true;
 		this.provider.orderitems.push({
 			'id':this.id,
 			'item':this.description,
