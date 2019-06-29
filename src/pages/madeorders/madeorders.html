@@ -9,17 +9,18 @@
 
 
 <ion-content padding>
-<ion-item>
-<ion-label floating>Pick Customer</ion-label>
+<ion-grid> <ion-row> <ion-col>
+<ion-label inline>Pick Customer</ion-label>
 <ion-select (ionChange)="customerfilter($event)">
 	<ion-option  *ngFor="let customers of customers" value={{customers.customer}}>{{customers.customer}}</ion-option>
-</ion-select><br><hr>
-
-<ion-label>Specific order for customer</ion-label>
-<ion-select (ionChange)="numberfilter($event)">
-	<ion-option  *ngFor="let orderno of filteredordernos" value={{orderno.order_no}}>{{orderno.order_no}}</ion-option>
 </ion-select>
-</ion-item>
+</ion-col>
+<ion-col>
+<ion-label inline>Specific order for customer</ion-label>
+<ion-select (ionChange)="numberfilter($event)">
+	<ion-option  *ngFor="let orderno of filteredordernos" value={{orderno}}>{{orderno}}</ion-option>
+</ion-select>
+</ion-col></ion-row></ion-grid>
 <ion-item *ngFor="let orders of filtereddata">
 <ion-card >
 	<ion-card-header>

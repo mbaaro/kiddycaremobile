@@ -30,13 +30,13 @@ categories:any;
     id:any;
 	category:any;
 	description:any;
-	quantity:any;
+	quantity:number;
 	bp:any;
 	sp:any;
-	discount:any;
-	quantity_to_sell:any;
-	price_to_sell:any;
-	cartamount:any
+	discount:number;
+	quantity_to_sell:number;
+	price_to_sell:number;
+	cartamount:number
 	cartnumber:any;
 	iscart:boolean;
 	isorder:boolean;
@@ -235,6 +235,7 @@ if(unit_price<(this.sp-this.discount)){
 	alert("sorry, You can not give more than the allowed discount for  "+this.description);
 }
 		else if(quantity1>this.quantity){
+			console.log("quantity1 "+quantity1+" stock "+this.quantity);
 			//trying to sell more than is in stock
 			alert("You can not sell more than is  in stock");
 		}

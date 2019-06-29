@@ -171,23 +171,30 @@ completeorders(customer,notes,phone){
   var headers=new Headers();
     headers.append('Content-Type','application/x-www-form-urlencoded; charset=UTF-8');
     this.http.post(this.url+"completeorder",body,{headers:headers}).subscribe(data=>{
-      this.provider.orderitems=[];
+     // this.provider.orderitems=[];
 //clear the cart values for orders
-this.clearcart();
+this.clearorderscart();
     });
 }
-clearcart(){
+clearorderscart(){
   //reducing the cart figures without changing those for orders
   var j=0;
-  for(j=0;j<=this.provider.orderitems.length-1;j++){
-
+  for(j=0;j<=this.provider.orderitems.length;j++){
 this.provider.cartamount=(this.provider.cartamount-this.provider.orderitems[j].total);
 this.provider.cartnumber=(this.provider.cartnumber-1);
-this.provider.orderitems.pop();
-  }
-  this.isorder=false;
+if(j=this.provider.orderitems.length){
+  //for cases where the first function does not clear the array, let us forc clear y a second function
+   this.provider.cartamount=0;
+this.provider.cartnumber=0;
+
+   this.isorder=false;
+  this.provider.orderitems.splice(0);
   //exit this page and go back to the stocks page
-  this.navCtrl.push(StocksPage);
+   this.navCtrl.push(StocksPage);
+}
+
+  }  
+ 
 }
 
 
@@ -235,7 +242,8 @@ handler:data=>{},
     headers.append('Content-Type','application/x-www-form-urlencoded; charset=UTF-8');
     this.http.post(this.url+"cleararray",body,{headers:headers}).subscribe(data=>{
     this.provider.orderitems=[];
-          this.orderitems=[];		
+          this.orderitems=[];	
+          this.isorder=false;	
     });
 	
 	}
